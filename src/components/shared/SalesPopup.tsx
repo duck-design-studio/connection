@@ -17,6 +17,12 @@ interface SalesPopupProps {
     ctaLink?: string;
     dismissText?: string;
     scrollThreshold?: number;
+    freeAccessNote?: {
+      enabled?: boolean;
+      text?: string;
+      linkText?: string;
+      linkUrl?: string;
+    };
   };
 }
 
@@ -36,6 +42,11 @@ export function SalesPopup({ config }: SalesPopupProps = {}) {
     typeof config?.scrollThreshold === 'number' && config.scrollThreshold > 0
       ? config.scrollThreshold
       : 150;
+  const freeNote = config?.freeAccessNote;
+  const freeNoteEnabled = freeNote?.enabled !== false;
+  const freeNoteText = freeNote?.text || 'Você sabia? Visitação e degustação são gratuitas.';
+  const freeNoteLinkText = freeNote?.linkText || 'Ver programação aberta';
+  const freeNoteLinkUrl = freeNote?.linkUrl || '/#como-funciona';
 
   const [open, setOpen] = useState(false);
   const [armed, setArmed] = useState(false);
@@ -150,6 +161,20 @@ export function SalesPopup({ config }: SalesPopupProps = {}) {
               {dismissText}
             </button>
           </div>
+
+          {freeNoteEnabled && (
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 rounded-[12px] border border-[#7BA86A]/20 bg-[#7BA86A]/[0.06] px-4 py-3 font-just-sans text-[13px] leading-snug text-[#FFF5EC]/70">
+              <span className="inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-[#7BA86A]" aria-hidden="true" />
+              <span>{freeNoteText}</span>
+              <Link
+                href={freeNoteLinkUrl}
+                onClick={dismiss}
+                className="font-semibold text-[#A9D194] underline-offset-2 hover:underline"
+              >
+                {freeNoteLinkText} →
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

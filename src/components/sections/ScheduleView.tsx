@@ -24,6 +24,7 @@ const typeColors: Record<EventType, string> = {
 const weekdayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'] as const;
 
 export type ScheduleTrack = 'principal' | 'paralela';
+export type ScheduleAccess = 'free' | 'ticketed';
 
 export interface ScheduleEvent {
   id?: string;
@@ -33,6 +34,7 @@ export interface ScheduleEvent {
   title: string;
   type?: string;
   track?: ScheduleTrack;
+  access?: ScheduleAccess | null;
   speaker?: { name?: string } | string | null;
   speakerImages?: string[];
   location?: string;
@@ -62,11 +64,17 @@ type NormalizedEvent = {
   title: string;
   type: EventType;
   track: ScheduleTrack;
+  access: ScheduleAccess;
   speaker: string;
   speakerImages?: string[];
   location?: string;
   description?: string;
 };
+
+function deriveAccess(explicit: ScheduleAccess | null | undefined, track: ScheduleTrack): ScheduleAccess {
+  if (explicit === 'free' || explicit === 'ticketed') return explicit;
+  return track === 'paralela' ? 'free' : 'ticketed';
+}
 
 function EventCard({ item, showTime = true }: { item: NormalizedEvent; showTime?: boolean }) {
   const color = typeColors[item.type];
@@ -100,6 +108,17 @@ function EventCard({ item, showTime = true }: { item: NormalizedEvent; showTime?
             >
               {typeLabels[item.type]}
             </span>
+            {item.access === 'free' ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#7BA86A]/20 px-[8px] py-[2px] font-just-sans text-[10px] font-semibold uppercase tracking-wider text-[#A9D194]">
+                <span className="h-1 w-1 rounded-full bg-[#7BA86A]" />
+                Grátis
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#956A47]/25 px-[8px] py-[2px] font-just-sans text-[10px] font-semibold uppercase tracking-wider text-[#E0B989]">
+                <span className="h-1 w-1 rounded-full bg-[#C9A962]" />
+                Ingresso
+              </span>
+            )}
             {item.track === 'paralela' && (
               <span className="rounded-full bg-[#FFF5EC]/10 px-[8px] py-[1px] font-just-sans text-[10px] font-medium text-[#FFF5EC]/50 uppercase tracking-wider">
                 Na Cidade
@@ -165,6 +184,7 @@ export function ScheduleView({
             : typeof e.speaker === 'string'
               ? e.speaker
               : '';
+        const track = (e.track || 'principal') as ScheduleTrack;
         return {
           id: e.id,
           dayKey,
@@ -173,7 +193,8 @@ export function ScheduleView({
           endTime: e.endTime,
           title: e.title,
           type: normalizeType(e.type),
-          track: (e.track || 'principal') as ScheduleTrack,
+          track,
+          access: deriveAccess(e.access, track),
           speaker: speakerName,
           speakerImages: e.speakerImages,
           location: e.location,
@@ -203,6 +224,7 @@ export function ScheduleView({
   );
 
   const [activeType, setActiveType] = useState<EventType | null>(null);
+  const [activeAccess, setActiveAccess] = useState<ScheduleAccess | null>(null);
   const [activeDay, setActiveDay] = useState<string>(days[0]?.key || '');
   const [activeLocation, setActiveLocation] = useState<string | null>(null);
   const [locationOpen, setLocationOpen] = useState(false);
@@ -210,12 +232,23 @@ export function ScheduleView({
 
   const effectiveDay = days.find((d) => d.key === activeDay)?.key || days[0]?.key || '';
 
+  const accessCounts = useMemo(() => {
+    let free = 0;
+    let ticketed = 0;
+    for (const n of normalized) {
+      if (n.access === 'free') free++;
+      else ticketed++;
+    }
+    return { free, ticketed };
+  }, [normalized]);
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     return normalized
       .filter((n) => {
         if (n.dayKey !== effectiveDay) return false;
         if (activeType && n.type !== activeType) return false;
+        if (activeAccess && n.access !== activeAccess) return false;
         if (activeLocation && n.location !== activeLocation) return false;
         if (
           q &&
@@ -226,7 +259,7 @@ export function ScheduleView({
         return true;
       })
       .sort((a, b) => a.startTime.localeCompare(b.startTime));
-  }, [normalized, effectiveDay, activeType, activeLocation, search]);
+  }, [normalized, effectiveDay, activeType, activeAccess, activeLocation, search]);
 
   const principalEvents = useMemo(() => filtered.filter((n) => n.track === 'principal'), [filtered]);
   const paralelaEvents = useMemo(() => filtered.filter((n) => n.track === 'paralela'), [filtered]);
@@ -236,7 +269,48 @@ export function ScheduleView({
   }
 
   return (
-    <div className="flex flex-col gap-[32px]">
+    <div className="flex flex-col gap-[24px]">
+      {/* Access filter (free vs ticketed) */}
+      {(accessCounts.free > 0 && accessCounts.ticketed > 0) && (
+        <div className="flex flex-wrap items-center gap-[10px]">
+          <span className="font-just-sans text-[12px] font-semibold uppercase tracking-[0.12em] text-[#FFF5EC]/40">
+            Acesso
+          </span>
+          <button
+            onClick={() => setActiveAccess(null)}
+            className={`rounded-full border border-[#FFF5EC]/20 px-[20px] py-[8px] font-just-sans text-[13px] text-[#FFF5EC] transition-colors ${
+              activeAccess === null ? 'bg-[#FFF5EC]/10' : 'bg-transparent hover:bg-[#FFF5EC]/5'
+            }`}
+          >
+            Todos
+          </button>
+          <button
+            onClick={() => setActiveAccess(activeAccess === 'free' ? null : 'free')}
+            className={`inline-flex items-center gap-2 rounded-full border px-[20px] py-[8px] font-just-sans text-[13px] transition-colors ${
+              activeAccess === 'free'
+                ? 'border-[#7BA86A]/60 bg-[#7BA86A]/20 text-[#A9D194]'
+                : 'border-[#7BA86A]/30 bg-transparent text-[#A9D194] hover:bg-[#7BA86A]/10'
+            }`}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7BA86A]" />
+            Grátis
+            <span className="text-[#A9D194]/60">({accessCounts.free})</span>
+          </button>
+          <button
+            onClick={() => setActiveAccess(activeAccess === 'ticketed' ? null : 'ticketed')}
+            className={`inline-flex items-center gap-2 rounded-full border px-[20px] py-[8px] font-just-sans text-[13px] transition-colors ${
+              activeAccess === 'ticketed'
+                ? 'border-[#C9A962]/60 bg-[#956A47]/30 text-[#E0B989]'
+                : 'border-[#956A47]/30 bg-transparent text-[#E0B989] hover:bg-[#956A47]/15'
+            }`}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[#C9A962]" />
+            Com ingresso
+            <span className="text-[#E0B989]/60">({accessCounts.ticketed})</span>
+          </button>
+        </div>
+      )}
+
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-[10px]">
         <button
@@ -371,13 +445,13 @@ export function ScheduleView({
         </div>
       )}
 
-      {/* Paralela — programação na cidade */}
+      {/* Paralela — programação aberta na cidade */}
       {paralelaEvents.length > 0 && (
         <div className="flex flex-col gap-[12px] mt-6">
           <div className="flex items-center gap-3 mb-2">
             <div className="h-px flex-1 bg-[#FFF5EC]/10" />
             <span className="font-just-sans text-[13px] font-semibold uppercase tracking-wider text-[#FFF5EC]/50">
-              Programação na Cidade
+              Programação Aberta na Cidade
             </span>
             <div className="h-px flex-1 bg-[#FFF5EC]/10" />
           </div>

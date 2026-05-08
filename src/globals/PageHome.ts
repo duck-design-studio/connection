@@ -9,13 +9,21 @@ export const PageHome: GlobalConfig = {
       type: "group", name: "hero", label: "Hero",
       fields: [
         { name: "headline", type: "text", label: "Manchete", defaultValue: "Deguste, conheça e sinta os melhores produtos de origem do Brasil." },
-        { name: "subtitle", type: "textarea", label: "Subtítulo", defaultValue: "O maior evento de produtos de origem do Brasil. Quatro dias de experiências gastronômicas, culturais e de conteúdo em Gramado." },
+        { name: "subtitle", type: "textarea", label: "Subtítulo", defaultValue: "Quatro dias em Gramado celebrando os produtos de origem do Brasil. Visitação e degustação gratuitas. Experiências exclusivas com ingresso." },
         { name: "videoUrl", type: "text", label: "URL do Vídeo (YouTube)", defaultValue: "", admin: { description: "Cole o link do YouTube (watch, youtu.be ou embed). O vídeo abre em um popup ao clicar no play. Deixe vazio para esconder a seção." } },
         { name: "videoPosterUrl", type: "text", label: "URL da Imagem de Capa do Vídeo", admin: { description: "Opcional. Se vazio, usa a thumbnail padrão do YouTube." } },
         { name: "secondaryButtonText", type: "text", label: "Texto Botão Secundário", defaultValue: "Saiba mais" },
         { name: "secondaryButtonLink", type: "text", label: "Link Botão Secundário", defaultValue: "/#experimentar" },
-        { type: "group", name: "preEventCta", label: "CTA Pré-evento", fields: [
-          { name: "buttonText", type: "text", label: "Texto do Botão", defaultValue: "Adquirir Ingresso" },
+        { type: "group", name: "preEventFreeCta", label: "CTA Pré-evento — Visita Gratuita (Primário)", admin: {
+          description: "CTA principal pré-evento que comunica acesso gratuito. Aparece em destaque ao lado do CTA de ingresso.",
+        }, fields: [
+          { name: "buttonText", type: "text", label: "Texto do Botão", defaultValue: "Visitar gratuitamente" },
+          { name: "buttonLink", type: "text", label: "Link do Botão", defaultValue: "/#como-funciona" },
+        ]},
+        { type: "group", name: "preEventCta", label: "CTA Pré-evento — Ingresso (Secundário)", admin: {
+          description: "CTA secundário pré-evento para venda de ingresso. Aparece como contorno ao lado do CTA gratuito.",
+        }, fields: [
+          { name: "buttonText", type: "text", label: "Texto do Botão", defaultValue: "Garantir ingresso" },
           { name: "buttonLink", type: "text", label: "Link do Botão", defaultValue: "/#modalidades" },
         ]},
         { type: "group", name: "duringEventCta", label: "CTA Durante o Evento", fields: [
@@ -25,6 +33,38 @@ export const PageHome: GlobalConfig = {
         { type: "group", name: "postEventCta", label: "CTA Pós-evento", fields: [
           { name: "buttonText", type: "text", label: "Texto do Botão", defaultValue: "Reviva a Experiência" },
           { name: "buttonLink", type: "text", label: "Link do Botão", defaultValue: "/blog" },
+        ]},
+      ],
+    },
+    {
+      type: "group", name: "comoFunciona", label: "Como Funciona (Acesso Livre vs Ingresso)",
+      admin: {
+        description: "Bloco entre Hero e Experimentar que explica o que é gratuito e o que precisa de ingresso. Aparece logo no topo da home.",
+      },
+      fields: [
+        { name: "enabled", type: "checkbox", label: "Ativado", defaultValue: true },
+        { name: "tag", type: "text", label: "Tag (pill superior)", defaultValue: "Como funciona" },
+        { name: "headline", type: "text", label: "Manchete", defaultValue: "Dois jeitos de viver o Connection" },
+        { name: "subtitle", type: "textarea", label: "Subtítulo", defaultValue: "Boa parte do evento é gratuita e aberta ao público. Algumas experiências exclusivas exigem ingresso." },
+        { name: "freeCard", type: "group", label: "Card 1 — Acesso Livre", fields: [
+          { name: "tag", type: "text", label: "Tag", defaultValue: "Gratuito" },
+          { name: "headline", type: "text", label: "Manchete", defaultValue: "Acesso livre" },
+          { name: "description", type: "textarea", label: "Descrição", defaultValue: "Visite, prove e descubra o universo dos produtos de origem sem pagar nada." },
+          { name: "items", type: "array", label: "O que está incluso", fields: [
+            { name: "text", type: "text", label: "Item" },
+          ]},
+          { name: "ctaText", type: "text", label: "Texto do CTA", defaultValue: "Ver programação gratuita" },
+          { name: "ctaLink", type: "text", label: "Link do CTA", defaultValue: "/#programacao" },
+        ]},
+        { name: "ticketedCard", type: "group", label: "Card 2 — Com Ingresso", fields: [
+          { name: "tag", type: "text", label: "Tag", defaultValue: "Com ingresso" },
+          { name: "headline", type: "text", label: "Manchete", defaultValue: "Experiências exclusivas" },
+          { name: "description", type: "textarea", label: "Descrição", defaultValue: "Conteúdo curado, palestras e visitações guiadas para quem quer mergulhar fundo." },
+          { name: "items", type: "array", label: "O que está incluso", fields: [
+            { name: "text", type: "text", label: "Item" },
+          ]},
+          { name: "ctaText", type: "text", label: "Texto do CTA", defaultValue: "Ver modalidades" },
+          { name: "ctaLink", type: "text", label: "Link do CTA", defaultValue: "/#modalidades" },
         ]},
       ],
     },
@@ -112,6 +152,15 @@ export const PageHome: GlobalConfig = {
         { name: "ctaLink", type: "text", label: "Link do CTA", defaultValue: "/#modalidades" },
         { name: "dismissText", type: "text", label: "Texto do botão de dispensar", defaultValue: "Agora não" },
         { name: "scrollThreshold", type: "number", label: "Pixels de scroll para abrir", defaultValue: 150, admin: { description: "Quantos pixels o usuário precisa rolar antes do popup aparecer." } },
+        { type: "group", name: "freeAccessNote", label: "Aviso de Acesso Gratuito",
+          admin: { description: "Pequena linha mostrada dentro do popup reforçando que parte do evento é gratuita. Reduz a sensação de 'tudo aqui é pago'." },
+          fields: [
+            { name: "enabled", type: "checkbox", label: "Mostrar aviso", defaultValue: true },
+            { name: "text", type: "text", label: "Texto", defaultValue: "Você sabia? Visitação e degustação são gratuitas." },
+            { name: "linkText", type: "text", label: "Texto do link", defaultValue: "Ver programação aberta" },
+            { name: "linkUrl", type: "text", label: "URL do link", defaultValue: "/#como-funciona" },
+          ],
+        },
       ],
     },
     {

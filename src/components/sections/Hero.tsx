@@ -29,11 +29,13 @@ export function Hero({ siteSettings, pageHome }: HeroProps) {
 
   // Hero content from CMS
   const headline = hero?.headline || 'Deguste, conheça e sinta os melhores produtos de origem do Brasil.';
-  const subtitle = hero?.subtitle || 'O maior evento de produtos de origem do Brasil. Quatro dias de experiências gastronômicas, culturais e de conteúdo em Gramado.';
+  const subtitle = hero?.subtitle || 'Quatro dias em Gramado celebrando os produtos de origem do Brasil. Visitação e degustação gratuitas. Experiências exclusivas com ingresso.';
   const videoUrl = hero?.videoUrl || '/videos/hero.mp4';
   const secondaryText = hero?.secondaryButtonText || 'Saiba mais';
   const secondaryLink = hero?.secondaryButtonLink || '/#experimentar';
-  const preEventText = hero?.preEventCta?.buttonText || 'Adquirir Ingresso';
+  const preEventFreeText = hero?.preEventFreeCta?.buttonText || 'Visitar gratuitamente';
+  const preEventFreeLink = hero?.preEventFreeCta?.buttonLink || '/#como-funciona';
+  const preEventText = hero?.preEventCta?.buttonText || 'Garantir ingresso';
   const preEventLink = hero?.preEventCta?.buttonLink || '/#modalidades';
   const duringText = hero?.duringEventCta?.buttonText || 'Confira a Programação';
   const duringLink = hero?.duringEventCta?.buttonLink || '/#programacao';
@@ -113,36 +115,54 @@ export function Hero({ siteSettings, pageHome }: HeroProps) {
               <PhaseConditional
                 phase={eventPhase}
                 preEvent={
-                  <Link
-                    href={preEventLink}
-                    className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
-                  >
-                    {preEventText}
-                  </Link>
+                  <>
+                    <Link
+                      href={preEventFreeLink}
+                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[220px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
+                    >
+                      {preEventFreeText}
+                    </Link>
+                    <Link
+                      href={preEventLink}
+                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
+                    >
+                      {preEventText}
+                    </Link>
+                  </>
                 }
                 duringEvent={
-                  <Link
-                    href={duringLink}
-                    className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
-                  >
-                    {duringText}
-                  </Link>
+                  <>
+                    <Link
+                      href={duringLink}
+                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
+                    >
+                      {duringText}
+                    </Link>
+                    <Link
+                      href={secondaryLink}
+                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
+                    >
+                      {secondaryText}
+                    </Link>
+                  </>
                 }
                 postEvent={
-                  <Link
-                    href={postLink}
-                    className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
-                  >
-                    {postText}
-                  </Link>
+                  <>
+                    <Link
+                      href={postLink}
+                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
+                    >
+                      {postText}
+                    </Link>
+                    <Link
+                      href={secondaryLink}
+                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
+                    >
+                      {secondaryText}
+                    </Link>
+                  </>
                 }
               />
-              <Link
-                href={secondaryLink}
-                className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
-              >
-                {secondaryText}
-              </Link>
             </div>
 
             {/* Navigation tabs */}

@@ -8,6 +8,7 @@ import { CTA } from '@/components/sections/CTA';
 import { InfoPraticas } from '@/components/sections/InfoPraticas';
 import { Parceiros } from '@/components/sections/Parceiros';
 import { HeroVideo } from '@/components/sections/HeroVideo';
+import { ComoFunciona } from '@/components/sections/ComoFunciona';
 import { EventGallery } from '@/components/sections/EventGallery';
 import { SpeakersGrid } from '@/components/sections/SpeakersGrid';
 import { SalesPopup } from '@/components/shared/SalesPopup';
@@ -54,6 +55,7 @@ export default async function Home() {
     <>
       <Hero siteSettings={siteSettings} pageHome={pageHomeWithSchedule} />
       <HeroVideo videoUrl={pageHomeWithSchedule?.hero?.videoUrl} posterUrl={pageHomeWithSchedule?.hero?.videoPosterUrl} />
+      <ComoFunciona cms={pageHomeWithSchedule?.comoFunciona} />
       <Experimentar products={cmsProducts} categories={cmsCategories} />
       <SeloIG pageHome={pageHomeWithSchedule} />
       {speakers.docs.length > 0 && (

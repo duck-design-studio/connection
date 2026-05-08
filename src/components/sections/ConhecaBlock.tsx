@@ -45,6 +45,7 @@ export function ConhecaBlock({ cmsSchedule, eventPhase, hiddenTypes = [] }: Conh
           title: evt.title || '',
           type: evt.type || 'special',
           track: evt.track || 'principal',
+          access: evt.access || null,
           speaker: { name: speakerName },
           speakerImages: photo ? [photo] : undefined,
           location: evt.location || undefined,

@@ -30,6 +30,17 @@ export const ScheduleEvents: CollectionConfig = {
         { label: "Na Cidade", value: "paralela" },
       ],
     },
+    {
+      name: "access", type: "select", label: "Acesso",
+      admin: {
+        description:
+          "Se vazio: 'Na Cidade' assume gratuito; 'Do Evento' assume ingresso. Defina manualmente para sobrescrever.",
+      },
+      options: [
+        { label: "Gratuito", value: "free" },
+        { label: "Com ingresso", value: "ticketed" },
+      ],
+    },
     { name: "description", type: "textarea", label: "Descrição" },
   ],
 };
