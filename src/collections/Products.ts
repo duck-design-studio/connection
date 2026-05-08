@@ -12,5 +12,6 @@ export const Products: CollectionConfig = {
     { name: "description", type: "textarea", label: "Descrição" },
     { name: "category", type: "relationship", relationTo: "product-categories", required: true, label: "Categoria" },
     { name: "image", type: "upload", relationTo: "media", label: "Imagem" },
+    { name: "order", type: "number", defaultValue: 0, label: "Ordem" },
   ],
 };

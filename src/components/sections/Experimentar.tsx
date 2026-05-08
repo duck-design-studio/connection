@@ -6,14 +6,19 @@ import { ParticipantCard } from '@/components/ui/ParticipantCard';
 import type { Participant } from '@/components/ui/ParticipantCard';
 import { ProductsIG } from '@/components/sections/ProductsIG';
 import { useGSAPScroll } from '@/hooks/useGSAP';
+import type { Product } from '@/types';
 
 interface ExperimentarProps {
   cmsData?: { title?: string; description?: string; features?: any[]; participants?: any[] };
+  products?: Product[];
+  categories?: string[];
 }
 
-export function Experimentar({ cmsData }: ExperimentarProps) {
+export function Experimentar({ cmsData, products, categories }: ExperimentarProps) {
   const jsonContent = getExperimentarContent();
   const content = cmsData ? { ...jsonContent, ...cmsData } : jsonContent;
+  const finalProducts = products !== undefined ? products : content.products;
+  const finalCategories = categories !== undefined ? categories : content.categories;
   const titleRef = useGSAPScroll<HTMLDivElement>({ animation: 'fadeUp', distance: 50, duration: 0.9 });
   const cardRef = useGSAPScroll<HTMLDivElement>({ animation: 'scaleIn', duration: 0.9 });
   const productsRef = useGSAPScroll<HTMLDivElement>({ animation: 'fadeUp', distance: 40 });
@@ -75,9 +80,11 @@ export function Experimentar({ cmsData }: ExperimentarProps) {
         </div>
 
         {/* Products with IG Section */}
-        <div ref={productsRef} className="opacity-0">
-          <ProductsIG products={content.products} categories={content.categories} />
-        </div>
+        {finalProducts.length > 0 && (
+          <div ref={productsRef} className="opacity-0">
+            <ProductsIG products={finalProducts} categories={finalCategories} />
+          </div>
+        )}
       </div>
     </section>
   );

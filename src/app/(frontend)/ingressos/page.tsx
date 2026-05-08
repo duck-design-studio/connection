@@ -38,7 +38,7 @@ export default async function IngressosPage() {
 
   return (
     <div className="pt-24">
-      {/* Hero */}
+      {/* Hero + Tickets */}
       <section className="py-20 bg-bg-dark">
         <div className="container mx-auto px-4 lg:px-8">
           <SectionTitle
@@ -46,14 +46,8 @@ export default async function IngressosPage() {
             subtitle={pageData.hero?.subtitle || "Escolha a experiência ideal para você e garanta sua presença no maior evento de Indicações Geográficas do Brasil"}
             align="center"
           />
-        </div>
-      </section>
-
-      {/* Tickets */}
-      {tickets.length > 0 && (
-      <section className="py-16 bg-bg-darker">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {tickets.length > 0 && (
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-12">
             {tickets.map((ticket) => (
               <div
                 key={ticket.id}
@@ -111,7 +105,8 @@ export default async function IngressosPage() {
                 </ul>
 
                 <Button
-                  href="#comprar"
+                  href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`Olá! Tenho interesse no ingresso ${ticket.name}.`)}`}
+                  external
                   variant={ticket.highlighted ? 'secondary' : 'primary'}
                   className={`w-full ${ticket.highlighted ? 'bg-bg-darker text-gold hover:bg-bg-dark' : ''}`}
                 >
@@ -120,9 +115,9 @@ export default async function IngressosPage() {
               </div>
             ))}
           </div>
+          )}
         </div>
       </section>
-      )}
 
       {/* Group Sales */}
       <section className="py-16 bg-bg-brown">

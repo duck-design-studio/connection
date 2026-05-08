@@ -17,14 +17,27 @@ export const dynamic = 'force-dynamic';
 export default async function Home() {
   const payload = await getPayload({ config });
 
-  const [siteSettings, pageHome, partners, scheduleEvents, speakers, pageProgramacao] = await Promise.all([
+  const [siteSettings, pageHome, partners, scheduleEvents, speakers, pageProgramacao, products, productCategories] = await Promise.all([
     payload.findGlobal({ slug: 'site-settings' }),
     payload.findGlobal({ slug: 'page-home' }),
     payload.find({ collection: 'partners', sort: 'order', limit: 50, depth: 2 }),
     payload.find({ collection: 'schedule-events', sort: 'date', limit: 200, depth: 1 }),
     payload.find({ collection: 'speakers', sort: 'order', limit: 50, depth: 1 }),
     payload.findGlobal({ slug: 'page-programacao' }),
+    payload.find({ collection: 'products', sort: 'order', limit: 200, depth: 1 }),
+    payload.find({ collection: 'product-categories', sort: 'name', limit: 50 }),
   ]);
+
+  const cmsProducts = products.docs.map((p: any) => ({
+    id: p.id,
+    name: p.name,
+    origin: p.origin || '',
+    state: p.state || '',
+    description: p.description || '',
+    category: typeof p.category === 'object' && p.category !== null ? p.category.name : '',
+    image: typeof p.image === 'object' && p.image !== null ? p.image.url : undefined,
+  }));
+  const cmsCategories = productCategories.docs.map((c: any) => c.name);
 
   // Attach schedule and event phase to pageHome for SeloIG > ConhecaBlock
   const pageHomeWithSchedule: any = {
@@ -41,7 +54,7 @@ export default async function Home() {
     <>
       <Hero siteSettings={siteSettings} pageHome={pageHomeWithSchedule} />
       <HeroVideo videoUrl={pageHomeWithSchedule?.hero?.videoUrl} posterUrl={pageHomeWithSchedule?.hero?.videoPosterUrl} />
-      <Experimentar />
+      <Experimentar products={cmsProducts} categories={cmsCategories} />
       <SeloIG pageHome={pageHomeWithSchedule} />
       {speakers.docs.length > 0 && (
         <section className="bg-[#131415] px-4 md:px-5 py-16 md:py-24">
