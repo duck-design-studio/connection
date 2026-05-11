@@ -168,7 +168,7 @@ export function Hero({ siteSettings, pageHome }: HeroProps) {
             {/* Navigation tabs */}
             <div className="flex items-start gap-2 sm:gap-[18px] w-full sm:w-auto lg:w-[510px]">
               <a
-                href="#ig"
+                href="#produtos"
                 className="flex-1 flex items-center justify-center px-[25px] py-[10px] border-b border-[#FFF5EC] font-just-sans font-normal text-[14px] text-[#FFF5EC] text-center hover:bg-[#FFF5EC]/5 transition-colors whitespace-nowrap"
               >
                 Produtos

@@ -81,7 +81,7 @@ export function Experimentar({ cmsData, products, categories }: ExperimentarProp
 
         {/* Products with IG Section */}
         {finalProducts.length > 0 && (
-          <div ref={productsRef} className="opacity-0">
+          <div id="produtos" ref={productsRef} className="opacity-0 scroll-mt-24">
             <ProductsIG products={finalProducts} categories={finalCategories} />
           </div>
         )}

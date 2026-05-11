@@ -40,5 +40,19 @@ export const SiteSettings: GlobalConfig = {
         { name: "officialHotel", type: "text", label: "Hotel Oficial", defaultValue: "Laghetto" },
       ],
     },
+    {
+      type: "group", name: "promoBanner", label: "Promoção (Popup Lateral)",
+      admin: { description: "Popup pequeno fixo no canto inferior direito, em todas as páginas. Desaparece automaticamente após o término ou quando o usuário fechar." },
+      fields: [
+        { name: "enabled", type: "checkbox", label: "Ativado", defaultValue: false },
+        { name: "tag", type: "text", label: "Tag (texto pequeno no topo)", defaultValue: "Promoção" },
+        { name: "headline", type: "text", label: "Manchete", defaultValue: "35% de desconto" },
+        { name: "description", type: "text", label: "Descrição", defaultValue: "Final do 1º lote — últimas horas." },
+        { name: "couponCode", type: "text", label: "Código do cupom", defaultValue: "DESC35" },
+        { name: "endsAt", type: "date", label: "Termina em (data e hora)", admin: { date: { pickerAppearance: "dayAndTime" }, description: "O countdown calcula automaticamente. Após este horário, o popup some." } },
+        { name: "ctaText", type: "text", label: "Texto do CTA", defaultValue: "Garantir ingresso" },
+        { name: "ctaLink", type: "text", label: "Link do CTA", defaultValue: "/ingressos" },
+      ],
+    },
   ],
 };

@@ -6,6 +6,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PromoSidePopup } from "@/components/shared/PromoSidePopup";
 import "../globals.css";
 
 const playfair = Playfair_Display({
@@ -84,6 +85,7 @@ export default async function FrontendLayout({
 }>) {
   let navFooterData = null;
   let eventPhase = 'pre-event';
+  let promoBanner: any = null;
   try {
     const payload = await getPayload({ config });
     const [navData, siteSettings] = await Promise.all([
@@ -92,6 +94,7 @@ export default async function FrontendLayout({
     ]);
     navFooterData = navData;
     eventPhase = siteSettings.event?.phase || 'pre-event';
+    promoBanner = (siteSettings as any).promoBanner || null;
   } catch {
     // CMS unavailable, use fallback
   }
@@ -148,6 +151,7 @@ fbq('track', 'PageView');`}
         />
         <main>{children}</main>
         <Footer cmsData={navFooterData} />
+        <PromoSidePopup config={promoBanner} />
       </body>
     </html>
   );

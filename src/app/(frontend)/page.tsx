@@ -11,7 +11,6 @@ import { HeroVideo } from '@/components/sections/HeroVideo';
 import { ComoFunciona } from '@/components/sections/ComoFunciona';
 import { EventGallery } from '@/components/sections/EventGallery';
 import { SpeakersGrid } from '@/components/sections/SpeakersGrid';
-import { SalesPopup } from '@/components/shared/SalesPopup';
 
 export const dynamic = 'force-dynamic';
 
@@ -77,7 +76,6 @@ export default async function Home() {
         })) || []}
       />
       <Parceiros partners={partners.docs} />
-      <SalesPopup config={(pageHomeWithSchedule as any)?.salesPopup} />
     </>
   );
 }

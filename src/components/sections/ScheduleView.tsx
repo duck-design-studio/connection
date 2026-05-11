@@ -108,12 +108,7 @@ function EventCard({ item, showTime = true }: { item: NormalizedEvent; showTime?
             >
               {typeLabels[item.type]}
             </span>
-            {item.access === 'free' ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#7BA86A]/20 px-[8px] py-[2px] font-just-sans text-[10px] font-semibold uppercase tracking-wider text-[#A9D194]">
-                <span className="h-1 w-1 rounded-full bg-[#7BA86A]" />
-                Grátis
-              </span>
-            ) : (
+            {item.access === 'ticketed' && (
               <span className="inline-flex items-center gap-1 rounded-full bg-[#956A47]/25 px-[8px] py-[2px] font-just-sans text-[10px] font-semibold uppercase tracking-wider text-[#E0B989]">
                 <span className="h-1 w-1 rounded-full bg-[#C9A962]" />
                 Ingresso
@@ -270,8 +265,8 @@ export function ScheduleView({
 
   return (
     <div className="flex flex-col gap-[24px]">
-      {/* Access filter (free vs ticketed) */}
-      {(accessCounts.free > 0 && accessCounts.ticketed > 0) && (
+      {/* Access filter (ticketed only) */}
+      {accessCounts.ticketed > 0 && (
         <div className="flex flex-wrap items-center gap-[10px]">
           <span className="font-just-sans text-[12px] font-semibold uppercase tracking-[0.12em] text-[#FFF5EC]/40">
             Acesso
@@ -283,18 +278,6 @@ export function ScheduleView({
             }`}
           >
             Todos
-          </button>
-          <button
-            onClick={() => setActiveAccess(activeAccess === 'free' ? null : 'free')}
-            className={`inline-flex items-center gap-2 rounded-full border px-[20px] py-[8px] font-just-sans text-[13px] transition-colors ${
-              activeAccess === 'free'
-                ? 'border-[#7BA86A]/60 bg-[#7BA86A]/20 text-[#A9D194]'
-                : 'border-[#7BA86A]/30 bg-transparent text-[#A9D194] hover:bg-[#7BA86A]/10'
-            }`}
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#7BA86A]" />
-            Grátis
-            <span className="text-[#A9D194]/60">({accessCounts.free})</span>
           </button>
           <button
             onClick={() => setActiveAccess(activeAccess === 'ticketed' ? null : 'ticketed')}

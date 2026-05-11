@@ -3,7 +3,6 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { Button } from '@/components/ui/Button';
-import { RichText } from '@/components/ui/RichText';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 
 export const dynamic = 'force-dynamic';
@@ -32,9 +31,7 @@ export default async function IngressosPage() {
     payload.findGlobal({ slug: 'site-settings' }),
     payload.findGlobal({ slug: 'page-ingressos' }),
   ]);
-  const groupEmail = settings.contact?.groupSalesEmail || 'grupos@connectionexperience.com.br';
   const whatsapp = settings.contact?.whatsapp || '5554999999999';
-  const mainEmail = settings.contact?.mainEmail || 'contato@connectionexperience.com.br';
 
   return (
     <div className="pt-24">
@@ -127,31 +124,14 @@ export default async function IngressosPage() {
             <p className="text-text-cream mb-8">
               {pageData.groupSales?.description || "Levando sua equipe para o Connection Experience? Oferecemos condições especiais para grupos a partir de 5 pessoas."}
             </p>
-            <Button href={`mailto:${groupEmail}`} variant="outline">
+            <Button
+              href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Olá! Tenho interesse em ingressos para grupos no Connection Experience.')}`}
+              external
+              variant="outline"
+            >
               Solicitar orçamento para grupos
             </Button>
           </div>
-        </div>
-      </section>
-
-      {/* CTA WhatsApp */}
-      <section className="py-20 bg-gold">
-        <div className="container mx-auto px-4 lg:px-8 text-center">
-          <h2 className="font-heading text-4xl text-bg-darker mb-4">
-            {pageData.cta?.headline || "Solicitar orçamento por WhatsApp"}
-          </h2>
-          <p className="text-bg-dark/80 mb-8">
-            {pageData.cta?.description || "Nossa equipe está pronta para ajudar você."}
-          </p>
-          <Button
-            href={pageData.cta?.buttonLink || `https://wa.me/${whatsapp}`}
-            external
-            variant="secondary"
-            size="lg"
-            className="bg-bg-darker text-gold"
-          >
-            {pageData.cta?.buttonText || "Solicitar orçamento por WhatsApp"}
-          </Button>
         </div>
       </section>
 

@@ -2,9 +2,10 @@ import { Metadata } from 'next';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { SectionTitle } from '@/components/ui/SectionTitle';
-import { Card, SpeakerCard } from '@/components/ui/Card';
+import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Testimonial } from '@/components/ui/Testimonial';
+import { SpeakersGrid } from '@/components/sections/SpeakersGrid';
 
 export const dynamic = 'force-dynamic';
 
@@ -79,32 +80,13 @@ export default async function ConhecerPage() {
 
       {/* Speakers Section */}
       {speakers.length > 0 && pageData.speakersSection?.visible !== false && (
-        <section className="py-20 bg-bg-darker">
-          <div className="container mx-auto px-4 lg:px-8">
-            <SectionTitle
-              title={pageData.speakersSection?.title || "Palestrantes"}
-              subtitle={pageData.speakersSection?.subtitle || "Conheça os especialistas que compartilham conhecimento"}
-              align="center"
+        <section className="bg-[#131415] px-4 md:px-5 py-16 md:py-24">
+          <div className="mx-auto max-w-[1450px] rounded-[15px] overflow-hidden bg-[#131415] p-8 md:p-12 lg:p-16">
+            <SpeakersGrid
+              speakers={speakers as any}
+              tag="Confirmados"
+              title={pageData.speakersSection?.title || 'Palestrantes'}
             />
-            <div className="grid md:grid-cols-3 gap-8">
-              {speakers.map((speaker) => {
-                const photo = typeof speaker.photo === 'object' && speaker.photo !== null
-                  ? ((speaker.photo as any).url || `/media/${(speaker.photo as any).filename}`)
-                  : speaker.photo;
-                const creds = (speaker.credentials as any[])?.map((c: any) => c.credential) || [];
-
-                return (
-                  <SpeakerCard
-                    key={speaker.id}
-                    name={speaker.name}
-                    title={speaker.title || ''}
-                    bio={speaker.bio || ''}
-                    image={photo as string}
-                    credentials={creds}
-                  />
-                );
-              })}
-            </div>
           </div>
         </section>
       )}
