@@ -44,6 +44,13 @@ export default async function ExperimentarPage() {
     depth: 1,
   });
 
+  const { docs: restaurants } = await payload.find({
+    collection: 'restaurants',
+    sort: 'order',
+    limit: 50,
+    depth: 1,
+  });
+
   const pageData = await payload.findGlobal({ slug: 'page-experimentar' });
   const features = (pageData.features as any)?.items || [];
 
@@ -267,6 +274,97 @@ export default async function ExperimentarPage() {
                       </div>
                     </div>
                   </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Circuito Gastronômico — TEM IG NO PRATO */}
+      {restaurants.length > 0 && (
+        <section id="circuito-gastronomico" className="py-20 bg-bg-darker">
+          <div className="container mx-auto px-4 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <span className="inline-block mb-3 px-3 py-1 rounded-full border border-gold/40 text-gold text-xs font-medium tracking-[0.18em] uppercase">
+                08 a 22 de Junho
+              </span>
+              <h2 className="font-heading text-4xl md:text-5xl text-text-light mb-4">
+                TEM IG NO PRATO
+              </h2>
+              <p className="text-text-cream text-base md:text-lg leading-relaxed">
+                Durante o evento, restaurantes participantes criam pratos exclusivos que traduzem a origem, a cultura e a identidade de cada território.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {restaurants.map((r: any) => {
+                const photo =
+                  typeof r.photo === 'object' && r.photo !== null ? r.photo : null;
+                const photoSrc = photo?.url || (photo?.filename ? `/media/${photo.filename}` : '');
+
+                return (
+                  <a
+                    key={r.id}
+                    href={r.website || undefined}
+                    target={r.website ? '_blank' : undefined}
+                    rel={r.website ? 'noopener noreferrer' : undefined}
+                    className="group flex flex-col rounded-2xl border border-[#FFF5EC]/10 bg-[#1C1F21] overflow-hidden hover:border-[#C9A962]/40 transition-colors"
+                  >
+                    <div className="relative h-[240px] bg-bg-brown overflow-hidden">
+                      {photoSrc ? (
+                        <Image
+                          src={photoSrc}
+                          alt={photo?.alt || r.dishName || r.name}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center">
+                          <span className="font-just-sans text-lg font-semibold text-gold/30">
+                            {r.name}
+                          </span>
+                        </div>
+                      )}
+                      {r.ingredient && (
+                        <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-bg-darker/85 backdrop-blur-sm px-3 py-1 text-xs font-medium tracking-wider uppercase text-gold border border-gold/30">
+                          <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+                          {r.ingredient}
+                        </span>
+                      )}
+                    </div>
+                    <div className="p-6 flex-1 flex flex-col">
+                      <h3 className="font-heading text-xl text-text-light mb-1">
+                        {r.name}
+                      </h3>
+                      {r.dishName && (
+                        <p className="text-gold text-sm font-medium mb-3 italic">
+                          {r.dishName}
+                        </p>
+                      )}
+                      {r.description && (
+                        <p className="text-text-cream text-sm leading-relaxed">
+                          {r.description}
+                        </p>
+                      )}
+                      <div className="mt-auto pt-4 flex items-center justify-between gap-3 text-xs">
+                        {r.address && (
+                          <span className="flex items-center gap-1.5 text-text-muted">
+                            <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span className="truncate">{r.address}</span>
+                          </span>
+                        )}
+                        {r.website && (
+                          <span className="text-[#C9A962] font-medium group-hover:underline shrink-0 ml-auto">
+                            Saiba mais &rarr;
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </a>
                 );
               })}
             </div>

@@ -21,6 +21,7 @@ import { FAQ } from "./collections/FAQ";
 import { Experiences } from "./collections/Experiences";
 import { Hotels } from "./collections/Hotels";
 import { Shops } from "./collections/Shops";
+import { Restaurants } from "./collections/Restaurants";
 import { SiteSettings } from "./globals/SiteSettings";
 import { PageHome } from "./globals/PageHome";
 import { PageConhecer } from "./globals/PageConhecer";
@@ -41,7 +42,7 @@ export default buildConfig({
     },
     livePreview: {
       url: process.env.NEXT_PUBLIC_SERVER_URL || "https://www.connectionexperience.com.br",
-      collections: ["blog-posts", "speakers", "schedule-events", "tickets", "partners", "products", "testimonials", "faq", "authors", "experiences", "shops"],
+      collections: ["blog-posts", "speakers", "schedule-events", "tickets", "partners", "products", "testimonials", "faq", "authors", "experiences", "shops", "restaurants"],
       globals: ["site-settings", "page-home", "page-conhecer", "page-experimentar", "page-negociar", "page-ingressos", "page-programacao", "navigation-footer"],
       breakpoints: [
         { label: "Mobile", name: "mobile", width: 375, height: 667 },
@@ -67,6 +68,7 @@ export default buildConfig({
     Experiences,
     Hotels,
     Shops,
+    Restaurants,
   ],
   globals: [
     SiteSettings,
