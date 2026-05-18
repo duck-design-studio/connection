@@ -77,8 +77,14 @@ export default async function Home() {
       />
       {(() => {
         const press = (pageHomeWithSchedule as any)?.pressSection;
-        const items: any[] = Array.isArray(press?.items) ? press.items.filter((i: any) => i?.label && i?.url) : [];
-        if (press?.visible === false || items.length === 0) return null;
+        const cmsItems: any[] = Array.isArray(press?.items) ? press.items.filter((i: any) => i?.label && i?.url) : [];
+        const defaultItems = [
+          { label: 'Imprensa', url: 'https://sigevent.pro/ms/visitantes/?id_edicao=2664&linguagem=portugues' },
+          { label: 'Assessor de Imprensa', url: 'https://sigevent.pro/ms/visitantes/?id_edicao=2631&linguagem=portugues' },
+          { label: 'Criadores de Conteúdo', url: 'https://sigevent.pro/ms/visitantes/?id_edicao=2697&linguagem=portugues' },
+        ];
+        const items = cmsItems.length > 0 ? cmsItems : defaultItems;
+        if (press?.visible === false) return null;
         return (
           <section className="bg-[#131415] px-6 py-12 md:py-16">
             <div className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
