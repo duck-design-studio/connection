@@ -26,7 +26,7 @@ export const NavigationFooter: GlobalConfig = {
           { label: "Conhecer → Blog", value: "Blog" },
           { label: "Conhecer → Conteúdos sobre IG", value: "Conteúdos sobre IG" },
           { label: "Experiências → Parques parceiros", value: "Parques parceiros" },
-          { label: "Experiências → Hotéis", value: "Hotéis" },
+          { label: "Experiências → Hotéis Parceiros", value: "Hotéis Parceiros" },
           { label: "Experiências → Circuito de Compras", value: "Circuito de Compras" },
         ]},
       ]},
