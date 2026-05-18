@@ -66,42 +66,6 @@ export default async function Home() {
       )}
       <OQueEIG pageHome={pageHomeWithSchedule} />
       <CTA pageHome={pageHomeWithSchedule} />
-      {(() => {
-        const press = (pageHomeWithSchedule as any)?.pressSection;
-        const cmsItems: any[] = Array.isArray(press?.items) ? press.items.filter((i: any) => i?.label && i?.url) : [];
-        const defaultItems = [
-          { label: 'Imprensa', url: 'https://sigevent.pro/ms/visitantes/?id_edicao=2664&linguagem=portugues' },
-          { label: 'Assessor de Imprensa', url: 'https://sigevent.pro/ms/visitantes/?id_edicao=2631&linguagem=portugues' },
-          { label: 'Criadores de Conteúdo', url: 'https://sigevent.pro/ms/visitantes/?id_edicao=2697&linguagem=portugues' },
-        ];
-        const items = cmsItems.length > 0 ? cmsItems : defaultItems;
-        if (press?.visible === false) return null;
-        return (
-          <section className="bg-[#131415] px-6 py-12 md:py-16">
-            <div className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
-              <h2 className="font-just-sans text-[11px] font-semibold uppercase tracking-[0.24em] text-[#C9A962]">
-                {press?.title || 'Para a imprensa'}
-              </h2>
-              <p className="max-w-xl font-just-sans text-[14px] leading-relaxed text-[#FFF5EC]/55 md:text-[15px]">
-                {press?.description || 'Profissionais com credencial têm acesso à área de imprensa do evento.'}
-              </p>
-              <div className="flex flex-wrap justify-center gap-2.5 pt-1">
-                {items.map((item, i) => (
-                  <a
-                    key={i}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full border border-[#FFF5EC]/20 px-5 py-2.5 font-just-sans text-[13px] text-[#FFF5EC]/80 transition-colors hover:border-[#C9A962]/50 hover:bg-[#C9A962]/10 hover:text-[#FFF5EC]"
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </section>
-        );
-      })()}
       <InfoPraticas siteSettings={siteSettings} pageHome={pageHomeWithSchedule} />
       <EventGallery
         title={pageHomeWithSchedule?.eventGallery?.title}
