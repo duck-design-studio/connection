@@ -124,13 +124,15 @@ export default async function IngressosPage() {
             <p className="text-text-cream mb-8">
               {pageData.groupSales?.description || "Levando sua equipe para o Connection Experience? Oferecemos condições especiais para grupos a partir de 5 pessoas."}
             </p>
-            <Button
-              href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Olá! Tenho interesse em ingressos para grupos no Connection Experience.')}`}
-              external
-              variant="outline"
-            >
-              Solicitar orçamento para grupos
-            </Button>
+            {pageData.groupSales?.buttonLink && (
+              <Button
+                href={pageData.groupSales.buttonLink}
+                external
+                variant="outline"
+              >
+                {pageData.groupSales?.buttonText || 'Solicitar orçamento para grupos'}
+              </Button>
+            )}
           </div>
         </div>
       </section>

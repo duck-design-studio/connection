@@ -12,12 +12,8 @@ export const PageIngressos: GlobalConfig = {
     { type: "group", name: "groupSales", label: "Vendas para Grupos", fields: [
       { name: "title", type: "text", label: "Título", defaultValue: "Vendas para Grupos" },
       { name: "description", type: "textarea", label: "Descrição" },
-    ]},
-    { type: "group", name: "cta", label: "CTA", fields: [
-      { name: "headline", type: "text", label: "Manchete" },
-      { name: "description", type: "textarea", label: "Descrição" },
-      { name: "buttonText", type: "text", label: "Texto do Botão" },
-      { name: "buttonLink", type: "text", label: "Link do Botão" },
+      { name: "buttonText", type: "text", label: "Texto do Botão", defaultValue: "Solicitar orçamento para grupos" },
+      { name: "buttonLink", type: "text", label: "Link do Botão", admin: { description: "URL completa do destino. Para WhatsApp, use https://wa.me/<numero>" } },
     ]},
   ],
 };
