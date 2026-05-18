@@ -15,5 +15,15 @@ export const PageIngressos: GlobalConfig = {
       { name: "buttonText", type: "text", label: "Texto do Botão", defaultValue: "Solicitar orçamento para grupos" },
       { name: "buttonLink", type: "text", label: "Link do Botão", admin: { description: "URL completa do destino. Para WhatsApp, use https://wa.me/<numero>" } },
     ]},
+    {
+      type: "group", name: "cta", label: "CTA (legacy)",
+      admin: { description: "Grupo legado mantido para compatibilidade com colunas existentes no banco. O botão da página agora usa Vendas para Grupos → Link do Botão. Pode ser ignorado." },
+      fields: [
+        { name: "headline", type: "text", label: "Manchete" },
+        { name: "description", type: "textarea", label: "Descrição" },
+        { name: "buttonText", type: "text", label: "Texto do Botão" },
+        { name: "buttonLink", type: "text", label: "Link do Botão" },
+      ],
+    },
   ],
 };

@@ -124,13 +124,13 @@ export default async function IngressosPage() {
             <p className="text-text-cream mb-8">
               {pageData.groupSales?.description || "Levando sua equipe para o Connection Experience? Oferecemos condições especiais para grupos a partir de 5 pessoas."}
             </p>
-            {pageData.groupSales?.buttonLink && (
+            {(pageData.groupSales?.buttonLink || pageData.cta?.buttonLink) && (
               <Button
-                href={pageData.groupSales.buttonLink}
+                href={pageData.groupSales?.buttonLink || pageData.cta?.buttonLink}
                 external
                 variant="outline"
               >
-                {pageData.groupSales?.buttonText || 'Solicitar orçamento para grupos'}
+                {pageData.groupSales?.buttonText || pageData.cta?.buttonText || 'Solicitar orçamento para grupos'}
               </Button>
             )}
           </div>
