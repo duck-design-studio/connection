@@ -189,5 +189,25 @@ export const PageHome: GlobalConfig = {
         { name: "detail", type: "text", label: "Detalhe" },
       ]}],
     },
+    {
+      type: "group", name: "pressSection", label: "Imprensa (Home)",
+      admin: { description: "Seção discreta abaixo da Galeria do Evento. Mostra opções de credenciamento para imprensa, assessores e criadores de conteúdo." },
+      fields: [
+        { name: "visible", type: "checkbox", label: "Mostrar seção", defaultValue: true },
+        { name: "title", type: "text", label: "Título", defaultValue: "Para a imprensa" },
+        { name: "description", type: "textarea", label: "Descrição", defaultValue: "Profissionais com credencial têm acesso à área de imprensa do evento." },
+        { name: "items", type: "array", label: "Modalidades", maxRows: 5, admin: { description: "Botão por modalidade. Mantenha rótulos curtos." },
+          fields: [
+            { name: "label", type: "text", required: true, label: "Rótulo do botão" },
+            { name: "url", type: "text", required: true, label: "URL externa" },
+          ],
+          defaultValue: [
+            { label: "Imprensa", url: "https://sigevent.pro/ms/visitantes/?id_edicao=2664&linguagem=portugues" },
+            { label: "Assessor de Imprensa", url: "https://sigevent.pro/ms/visitantes/?id_edicao=2631&linguagem=portugues" },
+            { label: "Criadores de Conteúdo", url: "https://sigevent.pro/ms/visitantes/?id_edicao=2697&linguagem=portugues" },
+          ],
+        },
+      ],
+    },
   ],
 };
