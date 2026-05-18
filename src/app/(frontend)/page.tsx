@@ -66,15 +66,6 @@ export default async function Home() {
       )}
       <OQueEIG pageHome={pageHomeWithSchedule} />
       <CTA pageHome={pageHomeWithSchedule} />
-      <InfoPraticas siteSettings={siteSettings} pageHome={pageHomeWithSchedule} />
-      <EventGallery
-        title={pageHomeWithSchedule?.eventGallery?.title}
-        subtitle={pageHomeWithSchedule?.eventGallery?.subtitle}
-        images={(pageHomeWithSchedule?.eventGallery?.images as any[])?.map((item: any) => ({
-          image: typeof item.image === 'object' ? item.image : null,
-          caption: item.caption,
-        })) || []}
-      />
       {(() => {
         const press = (pageHomeWithSchedule as any)?.pressSection;
         const cmsItems: any[] = Array.isArray(press?.items) ? press.items.filter((i: any) => i?.label && i?.url) : [];
@@ -111,6 +102,15 @@ export default async function Home() {
           </section>
         );
       })()}
+      <InfoPraticas siteSettings={siteSettings} pageHome={pageHomeWithSchedule} />
+      <EventGallery
+        title={pageHomeWithSchedule?.eventGallery?.title}
+        subtitle={pageHomeWithSchedule?.eventGallery?.subtitle}
+        images={(pageHomeWithSchedule?.eventGallery?.images as any[])?.map((item: any) => ({
+          image: typeof item.image === 'object' ? item.image : null,
+          caption: item.caption,
+        })) || []}
+      />
       <Parceiros partners={partners.docs} />
     </>
   );
