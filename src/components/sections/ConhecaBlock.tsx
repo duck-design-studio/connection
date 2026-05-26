@@ -33,10 +33,33 @@ export function ConhecaBlock({ cmsSchedule, eventPhase, hiddenTypes = [] }: Conh
 
   const scheduleEvents: ScheduleEvent[] = (cmsSchedule && cmsSchedule.length > 0)
     ? cmsSchedule.map((evt: any) => {
-        const speakerName = typeof evt.speaker === 'object' && evt.speaker?.name ? evt.speaker.name : '';
-        const photo = typeof evt.speaker === 'object' && evt.speaker?.photo
-          ? (evt.speaker.photo.url || `/media/${evt.speaker.photo.filename}`)
-          : undefined;
+        const toArray = (v: any): any[] => (Array.isArray(v) ? v : v ? [v] : []);
+        const nameOf = (s: any): string =>
+          typeof s === 'object' && s?.name ? s.name : '';
+        const photoOf = (s: any): string | null =>
+          typeof s === 'object' && s?.photo && typeof s.photo === 'object'
+            ? s.photo.url || (s.photo.filename ? `/media/${s.photo.filename}` : null)
+            : null;
+
+        // Palestrantes + painelistas formam o grupo principal; cai pro campo antigo se vazio.
+        const mainPeople = [...toArray(evt.speakers), ...toArray(evt.panelists)];
+        const effectiveMain = mainPeople.length > 0 ? mainPeople : toArray(evt.speaker);
+        const moderators = toArray(evt.moderators);
+
+        const mainNames = effectiveMain.map(nameOf).filter(Boolean);
+        const modNames = moderators.map(nameOf).filter(Boolean);
+
+        let speakerLine = mainNames.join(', ');
+        if (modNames.length > 0) {
+          speakerLine = speakerLine
+            ? `${speakerLine} · Mediação: ${modNames.join(', ')}`
+            : `Mediação: ${modNames.join(', ')}`;
+        }
+
+        const photos = [
+          ...new Set([...effectiveMain, ...moderators].map(photoOf).filter(Boolean)),
+        ] as string[];
+
         return {
           id: String(evt.id),
           date: evt.date,
@@ -46,8 +69,8 @@ export function ConhecaBlock({ cmsSchedule, eventPhase, hiddenTypes = [] }: Conh
           type: evt.type || 'special',
           track: evt.track || 'principal',
           access: evt.access || null,
-          speaker: { name: speakerName },
-          speakerImages: photo ? [photo] : undefined,
+          speaker: { name: speakerLine },
+          speakerImages: photos.length > 0 ? photos : undefined,
           location: evt.location || undefined,
           description: evt.description || undefined,
         };

@@ -22,7 +22,7 @@ export default async function Home() {
     payload.findGlobal({ slug: 'site-settings' }),
     payload.findGlobal({ slug: 'page-home' }),
     payload.find({ collection: 'partners', sort: 'order', limit: 50, depth: 2 }),
-    payload.find({ collection: 'schedule-events', sort: 'date', limit: 200, depth: 1 }),
+    payload.find({ collection: 'schedule-events', sort: 'date', limit: 200, depth: 2 }),
     payload.find({ collection: 'speakers', sort: 'order', limit: 50, depth: 1 }),
     payload.findGlobal({ slug: 'page-programacao' }),
     payload.find({ collection: 'products', sort: 'order', limit: 200, depth: 1 }),

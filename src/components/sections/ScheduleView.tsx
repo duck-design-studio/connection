@@ -3,10 +3,11 @@
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
 
-type EventType = 'palestra' | 'workshop' | 'networking' | 'break' | 'special';
+type EventType = 'palestra' | 'painel' | 'workshop' | 'networking' | 'break' | 'special';
 
 const typeLabels: Record<EventType, string> = {
   palestra: 'Palestra',
+  painel: 'Painel',
   workshop: 'Workshop',
   networking: 'Networking',
   break: 'Intervalo',
@@ -15,6 +16,7 @@ const typeLabels: Record<EventType, string> = {
 
 const typeColors: Record<EventType, string> = {
   palestra: '#956A47',
+  painel: '#B0824A',
   workshop: '#2D5A3D',
   networking: '#3B4D7A',
   break: '#6B7280',
