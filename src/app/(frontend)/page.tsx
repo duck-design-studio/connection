@@ -11,6 +11,7 @@ import { HeroVideo } from '@/components/sections/HeroVideo';
 import { ComoFunciona } from '@/components/sections/ComoFunciona';
 import { EventGallery } from '@/components/sections/EventGallery';
 import { SpeakersGrid } from '@/components/sections/SpeakersGrid';
+import { attachTalkTitles } from '@/lib/speakers';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,6 +48,8 @@ export default async function Home() {
     scheduleHiddenTypes: (pageProgramacao as any).hiddenTypes || [],
   };
 
+  const speakersWithTalks = await attachTalkTitles(payload, speakers.docs);
+
   const speakersTag = pageHomeWithSchedule?.speakers?.tag || 'Confirmados';
   const speakersTitle = pageHomeWithSchedule?.speakers?.title || 'Palestrantes';
 
@@ -57,10 +60,10 @@ export default async function Home() {
       <ComoFunciona cms={pageHomeWithSchedule?.comoFunciona} />
       <Experimentar products={cmsProducts} categories={cmsCategories} />
       <SeloIG pageHome={pageHomeWithSchedule} />
-      {speakers.docs.length > 0 && (
+      {speakersWithTalks.length > 0 && (
         <section className="bg-[#131415] px-4 md:px-5 py-16 md:py-24">
           <div className="mx-auto max-w-[1450px] rounded-[15px] overflow-hidden bg-[#131415] p-8 md:p-12 lg:p-16">
-            <SpeakersGrid speakers={speakers.docs as any} tag={speakersTag} title={speakersTitle} />
+            <SpeakersGrid speakers={speakersWithTalks as any} tag={speakersTag} title={speakersTitle} />
           </div>
         </section>
       )}

@@ -5,6 +5,7 @@ export interface SpeakerData {
   name: string;
   role?: string | null;
   title?: string | null;
+  talkTitle?: string | null;
   bio?: string | null;
   photo?: { url?: string; filename?: string; alt?: string } | string | null;
 }
@@ -83,9 +84,14 @@ export function SpeakersGrid({ speakers, tag = 'Confirmados', title = 'Palestran
                     {speaker.role}
                   </span>
                 )}
-                <h3 className="mb-2 font-heading text-base leading-tight text-[#FFF5EC] md:text-xl lg:text-2xl shrink-0">
+                <h3 className="mb-1 font-heading text-base leading-tight text-[#FFF5EC] md:text-xl lg:text-2xl shrink-0">
                   {speaker.name}
                 </h3>
+                {speaker.talkTitle && (
+                  <p className="mb-2 font-just-sans text-xs font-medium leading-snug text-[#C9A962] md:text-sm shrink-0">
+                    {speaker.talkTitle}
+                  </p>
+                )}
                 {hoverText && (
                   <p className="font-just-sans text-[11px] leading-relaxed text-[#FFF5EC]/85 md:text-sm overflow-y-auto pr-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#FFF5EC]/30 [&::-webkit-scrollbar-thumb]:rounded-full">
                     {hoverText}

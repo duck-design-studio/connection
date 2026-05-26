@@ -13,6 +13,15 @@ export const Speakers: CollectionConfig = {
       { label: "Mediador", value: "mediador" },
     ], defaultValue: "palestrante" },
     { name: "title", type: "text", label: "Cargo/Título" },
+    {
+      name: "talkTitle",
+      type: "text",
+      label: "Título da Palestra",
+      admin: {
+        description:
+          "Aparece abaixo do nome ao passar o mouse no card. Se deixar em branco, usamos automaticamente o título da palestra deste palestrante na Programação (evento do tipo 'Palestra').",
+      },
+    },
     { name: "bio", type: "textarea", label: "Biografia" },
     { name: "photo", type: "upload", relationTo: "media", label: "Foto" },
     { name: "credentials", type: "array", label: "Credenciais", fields: [{ name: "credential", type: "text", label: "Credencial" }] },

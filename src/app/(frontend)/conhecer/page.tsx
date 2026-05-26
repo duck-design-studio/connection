@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Testimonial } from '@/components/ui/Testimonial';
 import { SpeakersGrid } from '@/components/sections/SpeakersGrid';
+import { attachTalkTitles } from '@/lib/speakers';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,12 +18,13 @@ export const metadata: Metadata = {
 export default async function ConhecerPage() {
   const payload = await getPayload({ config });
 
-  const { docs: speakers } = await payload.find({
+  const { docs: speakersDocs } = await payload.find({
     collection: 'speakers',
     sort: 'order',
     limit: 20,
     depth: 1,
   });
+  const speakers = await attachTalkTitles(payload, speakersDocs);
 
   const { docs: testimonials } = await payload.find({
     collection: 'testimonials',
