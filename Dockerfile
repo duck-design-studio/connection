@@ -40,6 +40,11 @@ COPY --from=builder /app/src ./src
 COPY --from=builder /app/tsconfig.json ./
 COPY --from=builder /app/scripts ./scripts
 
+# O cache do Next (otimização de imagens em runtime) precisa ser gravável
+# pelo usuário 'nextjs'. Sem isso o processo lança EACCES ao criar
+# .next/cache/images e derruba a renderização de imagens.
+RUN mkdir -p ./.next/cache/images && chown -R nextjs:nodejs ./.next/cache
+
 USER nextjs
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
