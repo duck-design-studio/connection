@@ -76,6 +76,11 @@ export function SpeakersGrid({ speakers, tag = 'Confirmados', title = 'Palestran
                 <h3 className="font-heading text-lg leading-tight text-[#FFF5EC] md:text-xl lg:text-2xl">
                   {speaker.name}
                 </h3>
+                {speaker.talkTitle && (
+                  <p className="mt-2 inline-block rounded-lg border border-[#C9A962]/35 bg-[#C9A962]/10 px-2.5 py-1 font-just-sans text-[11px] font-medium leading-snug text-[#C9A962] md:text-xs">
+                    {speaker.talkTitle}
+                  </p>
+                )}
               </div>
 
               <div className="absolute inset-0 flex flex-col bg-black/75 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:p-5">
@@ -88,7 +93,7 @@ export function SpeakersGrid({ speakers, tag = 'Confirmados', title = 'Palestran
                   {speaker.name}
                 </h3>
                 {speaker.talkTitle && (
-                  <p className="mb-2 font-just-sans text-xs font-medium leading-snug text-[#C9A962] md:text-sm shrink-0">
+                  <p className="mb-2 inline-block self-start rounded-lg border border-[#C9A962]/35 bg-[#C9A962]/10 px-2.5 py-1 font-just-sans text-[11px] font-medium leading-snug text-[#C9A962] md:text-xs shrink-0">
                     {speaker.talkTitle}
                   </p>
                 )}
