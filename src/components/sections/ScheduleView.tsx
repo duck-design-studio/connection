@@ -25,6 +25,17 @@ const typeColors: Record<EventType, string> = {
 
 const weekdayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'] as const;
 
+// Filter groups: cards still show the original type label (PALESTRA / PAINEL),
+// but in the filter row Palestra and Painel are merged into a single chip.
+type FilterGroupKey = 'palestra-painel' | 'workshop' | 'networking' | 'special';
+
+const filterGroups: ReadonlyArray<{ key: FilterGroupKey; label: string; types: EventType[] }> = [
+  { key: 'palestra-painel', label: 'Palestra/Painel', types: ['palestra', 'painel'] },
+  { key: 'workshop', label: 'Workshop', types: ['workshop'] },
+  { key: 'networking', label: 'Networking', types: ['networking'] },
+  { key: 'special', label: 'Especial', types: ['special'] },
+];
+
 export type ScheduleTrack = 'principal' | 'paralela';
 export type ScheduleAccess = 'free' | 'ticketed';
 
@@ -209,10 +220,15 @@ export function ScheduleView({
     return [...seen.values()].sort((a, b) => Number(a.key) - Number(b.key));
   }, [normalized]);
 
-  const typesPresent = useMemo(() => {
-    const set = new Set<EventType>();
-    for (const n of normalized) set.add(n.type);
-    return (Object.keys(typeLabels) as EventType[]).filter((t) => set.has(t) && !hiddenTypes.includes(t));
+  const groupsPresent = useMemo(() => {
+    const typesInUse = new Set<EventType>();
+    for (const n of normalized) typesInUse.add(n.type);
+    return filterGroups
+      .map((g) => ({
+        ...g,
+        types: g.types.filter((t) => typesInUse.has(t) && !hiddenTypes.includes(t)),
+      }))
+      .filter((g) => g.types.length > 0);
   }, [normalized, hiddenTypes]);
 
   const locations = useMemo(
@@ -220,8 +236,12 @@ export function ScheduleView({
     [normalized]
   );
 
-  const [activeType, setActiveType] = useState<EventType | null>(null);
+  const [activeGroup, setActiveGroup] = useState<FilterGroupKey | null>(null);
   const [activeAccess, setActiveAccess] = useState<ScheduleAccess | null>(null);
+  const activeGroupTypes = useMemo(() => {
+    if (!activeGroup) return null;
+    return groupsPresent.find((g) => g.key === activeGroup)?.types ?? null;
+  }, [activeGroup, groupsPresent]);
   const [activeDay, setActiveDay] = useState<string>(days[0]?.key || '');
   const [activeLocation, setActiveLocation] = useState<string | null>(null);
   const [locationOpen, setLocationOpen] = useState(false);
@@ -244,7 +264,7 @@ export function ScheduleView({
     return normalized
       .filter((n) => {
         if (n.dayKey !== effectiveDay) return false;
-        if (activeType && n.type !== activeType) return false;
+        if (activeGroupTypes && !activeGroupTypes.includes(n.type)) return false;
         if (activeAccess && n.access !== activeAccess) return false;
         if (activeLocation && n.location !== activeLocation) return false;
         if (
@@ -256,7 +276,7 @@ export function ScheduleView({
         return true;
       })
       .sort((a, b) => a.startTime.localeCompare(b.startTime));
-  }, [normalized, effectiveDay, activeType, activeAccess, activeLocation, search]);
+  }, [normalized, effectiveDay, activeGroupTypes, activeAccess, activeLocation, search]);
 
   const principalEvents = useMemo(() => filtered.filter((n) => n.track === 'principal'), [filtered]);
   const paralelaEvents = useMemo(() => filtered.filter((n) => n.track === 'paralela'), [filtered]);
@@ -299,22 +319,22 @@ export function ScheduleView({
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-[10px]">
         <button
-          onClick={() => setActiveType(null)}
+          onClick={() => setActiveGroup(null)}
           className={`rounded-full border border-[#FFF5EC]/20 px-[25px] py-[10px] font-just-sans text-sm text-[#FFF5EC] transition-colors ${
-            activeType === null ? 'bg-[#946947]' : 'bg-transparent hover:bg-[#FFF5EC]/5'
+            activeGroup === null ? 'bg-[#946947]' : 'bg-transparent hover:bg-[#FFF5EC]/5'
           }`}
         >
           Todos
         </button>
-        {typesPresent.map((t) => (
+        {groupsPresent.map((g) => (
           <button
-            key={t}
-            onClick={() => setActiveType(activeType === t ? null : t)}
+            key={g.key}
+            onClick={() => setActiveGroup(activeGroup === g.key ? null : g.key)}
             className={`rounded-full border border-[#FFF5EC]/20 px-[25px] py-[10px] font-just-sans text-sm text-[#FFF5EC] transition-colors ${
-              activeType === t ? 'bg-[#946947]' : 'bg-transparent hover:bg-[#FFF5EC]/5'
+              activeGroup === g.key ? 'bg-[#946947]' : 'bg-transparent hover:bg-[#FFF5EC]/5'
             }`}
           >
-            {typeLabels[t]}
+            {g.label}
           </button>
         ))}
 
