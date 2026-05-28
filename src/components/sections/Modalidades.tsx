@@ -7,12 +7,6 @@ type AccentKey = 'cream' | 'gold' | 'brown';
 
 type PressItem = { label: string; url: string };
 
-type PressSubsection = {
-  title: string;
-  description: string;
-  items: PressItem[];
-};
-
 type Modalidade = {
   tag: string;
   price: string;
@@ -25,7 +19,7 @@ type Modalidade = {
   accent: AccentKey;
   highlighted?: boolean;
   badge?: string;
-  pressSubsection?: PressSubsection;
+  pressLinks?: PressItem[];
 };
 
 const fallbackModalidades: Modalidade[] = [
@@ -149,27 +143,32 @@ const defaultPressItems: PressItem[] = [
   { label: 'Criadores de Conteúdo', url: 'https://sigevent.pro/ms/visitantes/?id_edicao=2697&linguagem=portugues' },
 ];
 
-function buildPressSubsection(pressSection: any): PressSubsection | null {
-  if (pressSection?.visible === false) return null;
+function buildPressCard(pressSection: any): Modalidade {
   const cmsItems: PressItem[] = Array.isArray(pressSection?.items)
     ? pressSection.items.filter((i: any) => i?.label && i?.url)
     : [];
-  const items = cmsItems.length > 0 ? cmsItems : defaultPressItems;
+  const pressLinks = cmsItems.length > 0 ? cmsItems : defaultPressItems;
   return {
-    title: pressSection?.title || 'Para a imprensa',
+    tag: 'Para a Imprensa',
+    price: 'Gratuito',
+    priceNote: 'Com credenciamento',
+    headline: pressSection?.title || 'Profissionais credenciados.',
     description:
       pressSection?.description ||
-      'Profissionais com credencial têm acesso à área de imprensa do evento.',
-    items,
+      'Imprensa, assessoria e criadores de conteúdo têm acesso à área de imprensa do evento.',
+    features: [],
+    caption: 'Ideal para cobertura jornalística do evento.',
+    accent: 'cream',
+    pressLinks,
   };
 }
 
 export function ModalidadesGrid({ cards, pressSection }: ModalidadesGridProps = {}) {
   const gridRef = useGSAPScroll<HTMLDivElement>({ animation: 'fadeUp', children: true, stagger: 0.15 });
   const baseModalidades = mapCmsCards(cards) || fallbackModalidades;
-  const pressSub = buildPressSubsection(pressSection);
-  const modalidades = pressSub
-    ? baseModalidades.map((m, i) => (i === 0 ? { ...m, pressSubsection: pressSub } : m))
+  const showPress = pressSection?.visible !== false;
+  const modalidades = showPress
+    ? [buildPressCard(pressSection), ...baseModalidades.slice(1)]
     : baseModalidades;
 
   return (
@@ -238,7 +237,21 @@ export function ModalidadesGrid({ cards, pressSection }: ModalidadesGridProps = 
                     </p>
                   </div>
 
-                  {m.cta ? (
+                  {m.pressLinks && m.pressLinks.length > 0 ? (
+                    <div className="flex flex-col gap-2.5">
+                      {m.pressLinks.map((link, i) => (
+                        <a
+                          key={`${link.label}-${i}`}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-full border border-[#FFF5EC]/20 px-6 py-3.5 text-center font-just-sans text-sm text-[#FFF5EC]/85 transition-colors hover:border-[#FFF5EC]/40 hover:bg-[#FFF5EC]/5 hover:text-[#FFF5EC]"
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  ) : m.cta ? (
                     <Link
                       href={m.cta.link}
                       className={`inline-flex items-center justify-center rounded-full px-6 py-3.5 font-just-sans text-sm font-semibold transition-colors ${styles.cta}`}
@@ -279,33 +292,6 @@ export function ModalidadesGrid({ cards, pressSection }: ModalidadesGridProps = 
                   <p className="font-just-sans text-sm italic text-[#FFF5EC]/55">
                     {m.caption}
                   </p>
-
-                  {m.pressSubsection && (
-                    <>
-                      <div className="h-px bg-[#FFF5EC]/8" />
-                      <div className="flex flex-col gap-3">
-                        <span className="font-just-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-[#C9A962]">
-                          {m.pressSubsection.title}
-                        </span>
-                        <p className="font-just-sans text-[13px] leading-relaxed text-[#FFF5EC]/60">
-                          {m.pressSubsection.description}
-                        </p>
-                        <div className="mt-1 flex flex-col gap-2">
-                          {m.pressSubsection.items.map((link, i) => (
-                            <a
-                              key={`${link.label}-${i}`}
-                              href={link.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="rounded-full border border-[#FFF5EC]/15 px-5 py-2.5 text-center font-just-sans text-[13px] text-[#FFF5EC]/80 transition-colors hover:border-[#C9A962]/60 hover:bg-[#C9A962]/10 hover:text-[#FFF5EC]"
-                            >
-                              {link.label}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  )}
                 </div>
               </div>
             </div>
