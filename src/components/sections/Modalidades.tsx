@@ -150,8 +150,8 @@ function buildPressCard(pressSection: any): Modalidade {
   const pressLinks = cmsItems.length > 0 ? cmsItems : defaultPressItems;
   return {
     tag: 'Para a Imprensa',
-    price: 'Gratuito',
-    priceNote: 'Com credenciamento',
+    price: 'Credenciamento',
+    priceNote: 'Sujeito a aprovação',
     headline: pressSection?.title || 'Profissionais credenciados.',
     description:
       pressSection?.description ||
