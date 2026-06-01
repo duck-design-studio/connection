@@ -93,7 +93,7 @@ export function SpeakersGrid({ speakers, tag = 'Confirmados', title = 'Palestran
                   {speaker.name}
                 </h3>
                 {speaker.talkTitle && (
-                  <p className="mb-2 inline-block self-start rounded-lg border border-[#C9A962]/35 bg-[#C9A962]/10 px-2.5 py-1 font-just-sans text-[11px] font-medium leading-snug text-[#C9A962] md:text-xs shrink-0">
+                  <p className="mb-2 hidden self-start rounded-lg border border-[#C9A962]/35 bg-[#C9A962]/10 px-2.5 py-1 font-just-sans text-[11px] font-medium leading-snug text-[#C9A962] shrink-0 md:inline-block md:text-xs">
                     {speaker.talkTitle}
                   </p>
                 )}
