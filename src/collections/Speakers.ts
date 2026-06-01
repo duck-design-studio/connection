@@ -11,6 +11,7 @@ export const Speakers: CollectionConfig = {
       { label: "Palestrante", value: "palestrante" },
       { label: "Mediadora", value: "mediadora" },
       { label: "Mediador", value: "mediador" },
+      { label: "Chef", value: "chef" },
     ], defaultValue: "palestrante" },
     { name: "title", type: "text", label: "Cargo/Título" },
     {

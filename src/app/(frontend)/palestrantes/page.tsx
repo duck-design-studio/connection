@@ -26,10 +26,18 @@ export default async function PalestrantesPage() {
   const tag = pageHome?.speakers?.tag || 'Confirmados';
   const title = pageHome?.speakers?.title || 'Palestrantes';
 
+  const palestrantes = speakers.filter((s: any) => s.role !== 'chef');
+  const chefs = speakers.filter((s: any) => s.role === 'chef');
+
   return (
     <div className="pt-32 pb-20 bg-[#131415] min-h-screen">
-      <div className="mx-auto max-w-[1221px] px-6 lg:px-[50px]">
-        <SpeakersGrid speakers={speakers as any} tag={tag} title={title} />
+      <div className="mx-auto max-w-[1221px] px-6 lg:px-[50px] space-y-16 md:space-y-24">
+        {palestrantes.length > 0 && (
+          <SpeakersGrid speakers={palestrantes as any} tag={tag} title={title} />
+        )}
+        {chefs.length > 0 && (
+          <SpeakersGrid speakers={chefs as any} tag="Confirmados" title="Arena Gastronômica" />
+        )}
       </div>
     </div>
   );

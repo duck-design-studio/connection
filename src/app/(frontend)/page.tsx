@@ -53,6 +53,10 @@ export default async function Home() {
   const speakersTag = pageHomeWithSchedule?.speakers?.tag || 'Confirmados';
   const speakersTitle = pageHomeWithSchedule?.speakers?.title || 'Palestrantes';
 
+  // Separa palestrantes/mediadores dos chefs (Arena Gastronômica)
+  const palestrantes = speakersWithTalks.filter((s: any) => s.role !== 'chef');
+  const chefs = speakersWithTalks.filter((s: any) => s.role === 'chef');
+
   return (
     <>
       <Hero siteSettings={siteSettings} pageHome={pageHomeWithSchedule} />
@@ -62,8 +66,13 @@ export default async function Home() {
       <SeloIG pageHome={pageHomeWithSchedule} />
       {speakersWithTalks.length > 0 && (
         <section className="bg-[#131415] px-4 md:px-5 py-16 md:py-24">
-          <div className="mx-auto max-w-[1450px] rounded-[15px] overflow-hidden bg-[#131415] p-8 md:p-12 lg:p-16">
-            <SpeakersGrid speakers={speakersWithTalks as any} tag={speakersTag} title={speakersTitle} />
+          <div className="mx-auto max-w-[1450px] rounded-[15px] overflow-hidden bg-[#131415] p-8 md:p-12 lg:p-16 space-y-16 md:space-y-24">
+            {palestrantes.length > 0 && (
+              <SpeakersGrid speakers={palestrantes as any} tag={speakersTag} title={speakersTitle} />
+            )}
+            {chefs.length > 0 && (
+              <SpeakersGrid speakers={chefs as any} tag="Confirmados" title="Arena Gastronômica" />
+            )}
           </div>
         </section>
       )}
