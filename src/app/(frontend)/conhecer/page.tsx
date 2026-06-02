@@ -37,6 +37,9 @@ export default async function ConhecerPage() {
 
   const features = (pageData.features as any)?.items || [];
 
+  const palestrantes = speakers.filter((s: any) => s.role !== 'chef');
+  const chefs = speakers.filter((s: any) => s.role === 'chef');
+
   return (
     <div className="pt-24">
       {/* Hero Section */}
@@ -83,12 +86,21 @@ export default async function ConhecerPage() {
       {/* Speakers Section */}
       {speakers.length > 0 && pageData.speakersSection?.visible !== false && (
         <section className="bg-[#131415] px-4 md:px-5 py-16 md:py-24">
-          <div className="mx-auto max-w-[1450px] rounded-[15px] overflow-hidden bg-[#131415] p-8 md:p-12 lg:p-16">
-            <SpeakersGrid
-              speakers={speakers as any}
-              tag="Confirmados"
-              title={pageData.speakersSection?.title || 'Palestrantes'}
-            />
+          <div className="mx-auto max-w-[1450px] rounded-[15px] overflow-hidden bg-[#131415] p-8 md:p-12 lg:p-16 space-y-16 md:space-y-24">
+            {palestrantes.length > 0 && (
+              <SpeakersGrid
+                speakers={palestrantes as any}
+                tag="Confirmados"
+                title={pageData.speakersSection?.title || 'Palestrantes'}
+              />
+            )}
+            {chefs.length > 0 && (
+              <SpeakersGrid
+                speakers={chefs as any}
+                tag="Confirmados"
+                title="Arena Gastronômica"
+              />
+            )}
           </div>
         </section>
       )}
