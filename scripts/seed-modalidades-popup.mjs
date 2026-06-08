@@ -103,7 +103,7 @@ const modalidadesSeed = {
     },
     {
       tag: 'Experiências Guiadas',
-      price: 'R$ 400',
+      price: 'R$ 500',
       priceNote: 'Por pessoa',
       headline: 'Imersão pelos parques e empresas de Gramado.',
       description:
@@ -148,7 +148,7 @@ const salesPopupSeed = {
   description:
     'Visitação guiada pelos parques e empresas de Gramado. Vagas limitadas — escolha a sua modalidade antes que esgote.',
   priceLabel: 'A partir de R$',
-  price: '400',
+  price: '500',
   ctaText: 'Adquirir ingresso',
   ctaLink: '/#modalidades',
   dismissText: 'Agora não',

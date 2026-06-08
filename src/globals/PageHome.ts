@@ -147,7 +147,7 @@ export const PageHome: GlobalConfig = {
         { name: "headline", type: "text", label: "Manchete", defaultValue: "Garanta sua imersão na origem." },
         { name: "description", type: "textarea", label: "Descrição", defaultValue: "Visitação guiada pelos parques e empresas de Gramado. Vagas limitadas — escolha a sua modalidade antes que esgote." },
         { name: "priceLabel", type: "text", label: "Texto antes do preço", defaultValue: "A partir de R$" },
-        { name: "price", type: "text", label: "Preço", defaultValue: "400" },
+        { name: "price", type: "text", label: "Preço", defaultValue: "500" },
         { name: "ctaText", type: "text", label: "Texto do CTA", defaultValue: "Adquirir ingresso" },
         { name: "ctaLink", type: "text", label: "Link do CTA", defaultValue: "/#modalidades" },
         { name: "dismissText", type: "text", label: "Texto do botão de dispensar", defaultValue: "Agora não" },

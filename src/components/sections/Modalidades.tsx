@@ -40,7 +40,7 @@ const fallbackModalidades: Modalidade[] = [
   },
   {
     tag: 'Experiências Guiadas',
-    price: 'R$ 400',
+    price: 'R$ 500',
     priceNote: 'Por pessoa',
     headline: 'Imersão pelos parques e empresas de Gramado.',
     description:

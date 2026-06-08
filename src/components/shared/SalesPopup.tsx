@@ -34,7 +34,7 @@ export function SalesPopup({ config }: SalesPopupProps = {}) {
     config?.description ||
     'Visitação guiada pelos parques e empresas de Gramado. Vagas limitadas — escolha a sua modalidade antes que esgote.';
   const priceLabel = config?.priceLabel || 'A partir de R$';
-  const price = config?.price || '400';
+  const price = config?.price || '500';
   const ctaText = config?.ctaText || 'Adquirir ingresso';
   const ctaLink = config?.ctaLink || '/#modalidades';
   const dismissText = config?.dismissText || 'Agora não';
