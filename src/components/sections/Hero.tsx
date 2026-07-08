@@ -42,6 +42,11 @@ export function Hero({ siteSettings, pageHome }: HeroProps) {
   const duringLink = hero?.duringEventCta?.buttonLink || '/#programacao';
   const postText = hero?.postEventCta?.buttonText || 'Reviva a Experiência';
   const postLink = hero?.postEventCta?.buttonLink || '/blog';
+  // Site em espera (jul/2026): esconde qualquer botão do Hero cujo destino seja
+  // compra de ingresso (link externo de venda, /ingressos ou âncora de modalidades).
+  // Detecta pelo href pra funcionar em qualquer fase do evento. Religa com INGRESSOS_ESCONDIDOS.
+  const isTicketLink = (href?: string) =>
+    INGRESSOS_ESCONDIDOS && /sigevent|\/ingressos|#modalidades/i.test(href || '');
   const sectionRef = useRef<HTMLDivElement>(null);
   const decorativeRef = useGSAPParallax<HTMLDivElement>(80);
 
@@ -117,9 +122,8 @@ export function Hero({ siteSettings, pageHome }: HeroProps) {
                 phase={eventPhase}
                 preEvent={
                   <>
-                    {/* Botão principal do Hero ESCONDIDO (jul/2026): hoje o CMS usa este slot
-                        para a compra de ingresso (link externo). Religa com INGRESSOS_ESCONDIDOS. */}
-                    {!INGRESSOS_ESCONDIDOS && (
+                    {/* Botões de compra de ingresso ficam ocultos enquanto INGRESSOS_ESCONDIDOS (detecção por link) */}
+                    {!isTicketLink(preEventFreeLink) && (
                       <Link
                         href={preEventFreeLink}
                         className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[220px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
@@ -127,8 +131,7 @@ export function Hero({ siteSettings, pageHome }: HeroProps) {
                         {preEventFreeText}
                       </Link>
                     )}
-                    {/* Botão "Garantir ingresso" ESCONDIDO (jul/2026) enquanto INGRESSOS_ESCONDIDOS */}
-                    {!INGRESSOS_ESCONDIDOS && (
+                    {!isTicketLink(preEventLink) && (
                       <Link
                         href={preEventLink}
                         className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
@@ -140,34 +143,42 @@ export function Hero({ siteSettings, pageHome }: HeroProps) {
                 }
                 duringEvent={
                   <>
-                    <Link
-                      href={duringLink}
-                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
-                    >
-                      {duringText}
-                    </Link>
-                    <Link
-                      href={secondaryLink}
-                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
-                    >
-                      {secondaryText}
-                    </Link>
+                    {!isTicketLink(duringLink) && (
+                      <Link
+                        href={duringLink}
+                        className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
+                      >
+                        {duringText}
+                      </Link>
+                    )}
+                    {!isTicketLink(secondaryLink) && (
+                      <Link
+                        href={secondaryLink}
+                        className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
+                      >
+                        {secondaryText}
+                      </Link>
+                    )}
                   </>
                 }
                 postEvent={
                   <>
-                    <Link
-                      href={postLink}
-                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
-                    >
-                      {postText}
-                    </Link>
-                    <Link
-                      href={secondaryLink}
-                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
-                    >
-                      {secondaryText}
-                    </Link>
+                    {!isTicketLink(postLink) && (
+                      <Link
+                        href={postLink}
+                        className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
+                      >
+                        {postText}
+                      </Link>
+                    )}
+                    {!isTicketLink(secondaryLink) && (
+                      <Link
+                        href={secondaryLink}
+                        className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
+                      >
+                        {secondaryText}
+                      </Link>
+                    )}
                   </>
                 }
               />
