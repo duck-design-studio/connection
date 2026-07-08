@@ -10,9 +10,12 @@ services:
     environment:
       DATABASE_URI: ${DATABASE_URI}
       PAYLOAD_SECRET: ${PAYLOAD_SECRET}
-      NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-https://www.connectionexperience.com.br}
+      NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-https://connectionterroirsdobrasil.com.br}
       NODE_ENV: production
       PAYLOAD_FORCE_DRIZZLE_PUSH: "true"
+      # Domínio(s) do app (Coolify gera as rotas do Traefik a partir daqui).
+      # Primeiro = canônico (novo). Os antigos seguem roteados para redirecionar.
+      SERVICE_FQDN_APP: connectionterroirsdobrasil.com.br,www.connectionexperience.com.br,connectionexperience.com.br
     networks:
       - coolify
     volumes:
