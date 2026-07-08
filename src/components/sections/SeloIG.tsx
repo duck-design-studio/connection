@@ -126,9 +126,12 @@ export function SeloIG({ pageHome }: SeloIGProps) {
         </div>
 
         {/* ─── 2. Conheça ─── */}
+        {/* ESCONDIDO (jul/2026): grade de Programação da home. Para reativar, remova o `false &&`. */}
+        {false && (
         <div id="programacao" ref={conhecaRef} className="opacity-0">
           <ConhecaBlock cmsSchedule={pageHome?.schedulePreview} eventPhase={pageHome?.eventPhase} hiddenTypes={pageHome?.scheduleHiddenTypes || []} />
         </div>
+        )}
       </div>
     </section>
   );

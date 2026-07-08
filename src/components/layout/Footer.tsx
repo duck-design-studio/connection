@@ -3,7 +3,8 @@ import Link from 'next/link';
 const footerLinks = {
   evento: [
     { label: 'Sobre', href: '/#sobre' },
-    { label: 'Programação', href: '/#programacao' },
+    // ESCONDIDO (jul/2026): link de Programação removido enquanto a grade está escondida.
+    // { label: 'Programação', href: '/#programacao' },
     // ESCONDIDO (jul/2026): link de Ingressos removido enquanto a venda está em espera.
     { label: 'Hotelaria', href: '/experimentar#hotelaria' },
   ],
