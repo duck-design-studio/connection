@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useGSAPScroll } from '@/hooks/useGSAP';
+import { INGRESSOS_ESCONDIDOS } from '@/lib/flags';
 
 interface CardItem { text?: string }
 interface CardData {
@@ -156,15 +157,18 @@ export function ComoFunciona({ cms }: ComoFuncionaProps) {
               ))}
             </ul>
 
-            <Link
-              href={ticketed?.ctaLink || '/#modalidades'}
-              className="mt-auto inline-flex w-fit items-center gap-2 rounded-full border border-[#FFF5EC]/30 bg-transparent px-6 py-3 font-just-sans text-sm font-semibold text-[#FFF5EC] transition-colors hover:bg-[#FFF5EC]/10"
-            >
-              {ticketed?.ctaText || 'Ver modalidades'}
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
+            {/* Botão "Ver modalidades" ESCONDIDO (jul/2026) enquanto a venda de ingresso está em espera */}
+            {!INGRESSOS_ESCONDIDOS && (
+              <Link
+                href={ticketed?.ctaLink || '/#modalidades'}
+                className="mt-auto inline-flex w-fit items-center gap-2 rounded-full border border-[#FFF5EC]/30 bg-transparent px-6 py-3 font-just-sans text-sm font-semibold text-[#FFF5EC] transition-colors hover:bg-[#FFF5EC]/10"
+              >
+                {ticketed?.ctaText || 'Ver modalidades'}
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -117,12 +117,16 @@ export function Hero({ siteSettings, pageHome }: HeroProps) {
                 phase={eventPhase}
                 preEvent={
                   <>
-                    <Link
-                      href={preEventFreeLink}
-                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[220px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
-                    >
-                      {preEventFreeText}
-                    </Link>
+                    {/* Botão principal do Hero ESCONDIDO (jul/2026): hoje o CMS usa este slot
+                        para a compra de ingresso (link externo). Religa com INGRESSOS_ESCONDIDOS. */}
+                    {!INGRESSOS_ESCONDIDOS && (
+                      <Link
+                        href={preEventFreeLink}
+                        className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[220px] py-[15px] px-[24px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#3D2E1E] text-center whitespace-nowrap hover:bg-[#FFF5EC]/90 transition-colors"
+                      >
+                        {preEventFreeText}
+                      </Link>
+                    )}
                     {/* Botão "Garantir ingresso" ESCONDIDO (jul/2026) enquanto INGRESSOS_ESCONDIDOS */}
                     {!INGRESSOS_ESCONDIDOS && (
                       <Link
