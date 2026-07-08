@@ -7,6 +7,7 @@ import config from "@payload-config";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PromoSidePopup } from "@/components/shared/PromoSidePopup";
+import { INGRESSOS_ESCONDIDOS } from "@/lib/flags";
 import "../globals.css";
 
 const playfair = Playfair_Display({
@@ -151,7 +152,8 @@ fbq('track', 'PageView');`}
         />
         <main>{children}</main>
         <Footer cmsData={navFooterData} />
-        <PromoSidePopup config={promoBanner} />
+        {/* Popup promocional ESCONDIDO (jul/2026) enquanto a venda está em espera */}
+        {!INGRESSOS_ESCONDIDOS && <PromoSidePopup config={promoBanner} />}
       </body>
     </html>
   );

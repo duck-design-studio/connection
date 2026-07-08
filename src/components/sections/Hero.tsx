@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { EventPhaseWrapper, PhaseConditional } from '@/components/shared/EventPhaseWrapper';
+import { INGRESSOS_ESCONDIDOS } from '@/lib/flags';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAPParallax } from '@/hooks/useGSAP';
@@ -122,12 +123,15 @@ export function Hero({ siteSettings, pageHome }: HeroProps) {
                     >
                       {preEventFreeText}
                     </Link>
-                    <Link
-                      href={preEventLink}
-                      className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
-                    >
-                      {preEventText}
-                    </Link>
+                    {/* Botão "Garantir ingresso" ESCONDIDO (jul/2026) enquanto INGRESSOS_ESCONDIDOS */}
+                    {!INGRESSOS_ESCONDIDOS && (
+                      <Link
+                        href={preEventLink}
+                        className="inline-flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] py-[15px] px-[24px] border border-[#FFF5EC] rounded-full font-just-sans font-semibold text-[16px] text-[#FFF5EC] text-center whitespace-nowrap hover:bg-[#FFF5EC]/10 transition-colors"
+                      >
+                        {preEventText}
+                      </Link>
+                    )}
                   </>
                 }
                 duringEvent={

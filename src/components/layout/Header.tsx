@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { INGRESSOS_ESCONDIDOS } from '@/lib/flags';
 import { MobileNav } from './MobileNav';
 
 export interface NavSubItem {
@@ -47,7 +48,7 @@ const navigation: NavItem[] = [
       ctaLabel: 'Ver Programação',
       ctaHref: '/#programacao',
     },
-    highlights: ['+30 palestrantes confirmados', '4 dias de evento', 'Painéis e debates ao vivo'],
+    highlights: ['4 dias de evento', 'Painéis e debates ao vivo'],
     items: [
       {
         label: 'Programação',
@@ -59,16 +60,17 @@ const navigation: NavItem[] = [
           </svg>
         ),
       },
-      {
-        label: 'Lista de palestrantes',
-        href: '/palestrantes',
-        description: 'Especialistas que vão inspirar você',
-        icon: (
-          <svg {...iconProps}>
-            <path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
-          </svg>
-        ),
-      },
+      // ESCONDIDO (jul/2026): link "Lista de palestrantes" removido do menu. Para reativar, descomente este item.
+      // {
+      //   label: 'Lista de palestrantes',
+      //   href: '/palestrantes',
+      //   description: 'Especialistas que vão inspirar você',
+      //   icon: (
+      //     <svg {...iconProps}>
+      //       <path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+      //     </svg>
+      //   ),
+      // },
       {
         label: 'Conteúdos e talks',
         href: '/conhecer#conteudos',
@@ -347,15 +349,17 @@ export function Header({ ctaText = 'Garantir Ingresso', ctaLink = '/ingressos', 
               ))}
             </nav>
 
-            {/* CTA Button */}
-            <div className="hidden lg:block">
-              <Link
-                href={ctaLink}
-                className="inline-flex items-center justify-center px-[25px] py-[10px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[14px] text-[#4D564D] text-center hover:bg-[#FFF5EC]/90 transition-colors"
-              >
-                {ctaText}
-              </Link>
-            </div>
+            {/* CTA Button — ESCONDIDO (jul/2026) enquanto INGRESSOS_ESCONDIDOS */}
+            {!INGRESSOS_ESCONDIDOS && (
+              <div className="hidden lg:block">
+                <Link
+                  href={ctaLink}
+                  className="inline-flex items-center justify-center px-[25px] py-[10px] bg-[#FFF5EC] rounded-full font-just-sans font-semibold text-[14px] text-[#4D564D] text-center hover:bg-[#FFF5EC]/90 transition-colors"
+                >
+                  {ctaText}
+                </Link>
+              </div>
+            )}
 
             {/* Mobile Menu Button */}
             <button

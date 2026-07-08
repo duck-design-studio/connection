@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { INGRESSOS_ESCONDIDOS } from '@/lib/flags';
 import { Button } from '@/components/ui/Button';
 import type { NavItem } from './Header';
 
@@ -177,9 +178,12 @@ export function MobileNav({ isOpen, onClose, navigation, ctaText = 'Garantir Ing
 
           {/* Footer */}
           <div className="p-6 border-t border-gold/10 space-y-4">
-            <Button href={ctaLink} className="w-full" onClick={onClose}>
-              {ctaText}
-            </Button>
+            {/* Botão de ingresso ESCONDIDO (jul/2026) enquanto INGRESSOS_ESCONDIDOS */}
+            {!INGRESSOS_ESCONDIDOS && (
+              <Button href={ctaLink} className="w-full" onClick={onClose}>
+                {ctaText}
+              </Button>
+            )}
             <div className="flex items-center justify-center gap-4">
               <a
                 href="https://instagram.com/connectionexperience"

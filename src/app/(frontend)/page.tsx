@@ -12,6 +12,7 @@ import { ComoFunciona } from '@/components/sections/ComoFunciona';
 import { EventGallery } from '@/components/sections/EventGallery';
 import { SpeakersGrid } from '@/components/sections/SpeakersGrid';
 import { attachTalkTitles } from '@/lib/speakers';
+import { INGRESSOS_ESCONDIDOS } from '@/lib/flags';
 
 export const dynamic = 'force-dynamic';
 
@@ -64,7 +65,8 @@ export default async function Home() {
       <ComoFunciona cms={pageHomeWithSchedule?.comoFunciona} />
       <Experimentar products={cmsProducts} categories={cmsCategories} />
       <SeloIG pageHome={pageHomeWithSchedule} />
-      {speakersWithTalks.length > 0 && (
+      {/* ESCONDIDO (jul/2026): Palestrantes + Arena Gastronômica. Para reativar, remova o `false &&` abaixo. */}
+      {false && speakersWithTalks.length > 0 && (
         <section className="bg-[#131415] px-4 md:px-5 py-16 md:py-24">
           <div className="mx-auto max-w-[1450px] rounded-[15px] overflow-hidden bg-[#131415] p-8 md:p-12 lg:p-16 space-y-16 md:space-y-24">
             {palestrantes.length > 0 && (
@@ -77,7 +79,8 @@ export default async function Home() {
         </section>
       )}
       <OQueEIG pageHome={pageHomeWithSchedule} />
-      <CTA pageHome={pageHomeWithSchedule} />
+      {/* ESCONDIDO (jul/2026): seção de modalidades/preços. Religa junto com a venda (INGRESSOS_ESCONDIDOS). */}
+      {!INGRESSOS_ESCONDIDOS && <CTA pageHome={pageHomeWithSchedule} />}
       <InfoPraticas siteSettings={siteSettings} pageHome={pageHomeWithSchedule} />
       <EventGallery
         title={pageHomeWithSchedule?.eventGallery?.title}
@@ -87,7 +90,8 @@ export default async function Home() {
           caption: item.caption,
         })) || []}
       />
-      <Parceiros partners={partners.docs} />
+      {/* ESCONDIDO (jul/2026): Patrocinadores/Parceiros do rodapé. Para reativar, remova o `false &&`. */}
+      {false && <Parceiros partners={partners.docs} />}
     </>
   );
 }

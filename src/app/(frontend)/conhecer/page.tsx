@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { getPayload } from 'payload';
 import config from '@payload-config';
+import { INGRESSOS_ESCONDIDOS } from '@/lib/flags';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -84,7 +85,8 @@ export default async function ConhecerPage() {
       )}
 
       {/* Speakers Section */}
-      {speakers.length > 0 && pageData.speakersSection?.visible !== false && (
+      {/* ESCONDIDO (jul/2026): Palestrantes + Arena Gastronômica na página Conhecer. Para reativar, remova o `false &&`. */}
+      {false && speakers.length > 0 && pageData.speakersSection?.visible !== false && (
         <section className="bg-[#131415] px-4 md:px-5 py-16 md:py-24">
           <div className="mx-auto max-w-[1450px] rounded-[15px] overflow-hidden bg-[#131415] p-8 md:p-12 lg:p-16 space-y-16 md:space-y-24">
             {palestrantes.length > 0 && (
@@ -130,7 +132,8 @@ export default async function ConhecerPage() {
         </section>
       )}
 
-      {/* CTA */}
+      {/* CTA — ESCONDIDO (jul/2026) enquanto a venda de ingresso está em espera */}
+      {!INGRESSOS_ESCONDIDOS && (
       <section className="py-20 bg-gold">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <h2 className="font-heading text-4xl text-bg-darker mb-6">
@@ -141,6 +144,7 @@ export default async function ConhecerPage() {
           </Button>
         </div>
       </section>
+      )}
     </div>
   );
 }

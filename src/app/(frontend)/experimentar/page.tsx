@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { getPayload } from 'payload';
 import config from '@payload-config';
+import { INGRESSOS_ESCONDIDOS } from '@/lib/flags';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -438,7 +439,8 @@ export default async function ExperimentarPage() {
         </section>
       )}
 
-      {/* CTA */}
+      {/* CTA — ESCONDIDO (jul/2026) enquanto a venda de ingresso está em espera */}
+      {!INGRESSOS_ESCONDIDOS && (
       <section className="py-20 bg-gold">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <h2 className="font-heading text-4xl text-bg-darker mb-6">
@@ -449,6 +451,7 @@ export default async function ExperimentarPage() {
           </Button>
         </div>
       </section>
+      )}
     </div>
   );
 }

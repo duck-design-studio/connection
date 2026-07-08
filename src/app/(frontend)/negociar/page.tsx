@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { getPayload } from 'payload';
 import config from '@payload-config';
+import { INGRESSOS_ESCONDIDOS } from '@/lib/flags';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -169,9 +170,12 @@ export default async function NegociarPage() {
             {pageData.cta?.description || "Seja você produtor ou comprador, o Connection Experience é o lugar para fazer bons negócios."}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button href={pageData.cta?.buttonLink || "/ingressos"} variant="secondary" size="lg" className="bg-bg-darker text-gold">
-              {pageData.cta?.buttonText || "Quero participar"}
-            </Button>
+            {/* Botão de ingresso ESCONDIDO (jul/2026) enquanto a venda está em espera */}
+            {!INGRESSOS_ESCONDIDOS && (
+              <Button href={pageData.cta?.buttonLink || "/ingressos"} variant="secondary" size="lg" className="bg-bg-darker text-gold">
+                {pageData.cta?.buttonText || "Quero participar"}
+              </Button>
+            )}
             <Button href={`mailto:${businessEmail}`} variant="ghost" size="lg" className="text-bg-darker border-2 border-bg-darker/20">
               {pageData.cta?.contactButtonText || "Falar com nossa equipe"}
             </Button>

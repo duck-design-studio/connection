@@ -80,7 +80,8 @@ export function Experimentar({ cmsData, products, categories }: ExperimentarProp
         </div>
 
         {/* Products with IG Section */}
-        {finalProducts.length > 0 && (
+        {/* ESCONDIDO (jul/2026): grade de Produtos IG (marcas participantes). Para reativar, remova o `false &&`. */}
+        {false && finalProducts.length > 0 && (
           <div id="produtos" ref={productsRef} className="opacity-0 scroll-mt-24">
             <ProductsIG products={finalProducts} categories={finalCategories} />
           </div>
