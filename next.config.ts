@@ -18,6 +18,19 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
+      // Domínio antigo → novo domínio oficial (preserva o caminho).
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.connectionexperience.com.br" }],
+        destination: "https://connectionterroirsdobrasil.com.br/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "connectionexperience.com.br" }],
+        destination: "https://connectionterroirsdobrasil.com.br/:path*",
+        permanent: true,
+      },
       // Webflow routes → new site routes
       { source: "/conteudo", destination: "/conhecer", permanent: true },
       { source: "/experiencias", destination: "/experimentar", permanent: true },
